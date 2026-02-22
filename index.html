@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Name — Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav class="tabs" role="tablist" aria-label="Main tabs">
+      <button class="tab active" data-target="about" role="tab" aria-selected="true">About</button>
+      <button class="tab" data-target="projects" role="tab" aria-selected="false">Projects</button>
+      <button class="tab" data-target="contact" role="tab" aria-selected="false">Contact</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" class="panel active" role="tabpanel">
+      <h1>Your Name</h1>
+      <p>Short intro — who you are, what you do, and what you care about. Replace this text with your own bio.</p>
+    </section>
+
+    <section id="projects" class="panel" role="tabpanel" hidden>
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <img src="project1.jpg" alt="Project One screenshot" class="project-img">
+          <h3>Project One</h3>
+          <p>Short description of project one.</p>
+          <button class="view-btn" data-image="project1.jpg">View project</button>
+        </article>
+
+        <article class="card">
+          <img src="project2.png" alt="Project Two screenshot" class="project-img">
+          <h3>Project Two</h3>
+          <p>Short description of project two.</p>
+          <button class="view-btn" data-image="project2.png">View project</button>
+        </article>
+
+        <article class="card">
+          <img src="project3.png" alt="Project Three screenshot" class="project-img">
+          <h3>Project Three</h3>
+          <p>Short description of project three.</p>
+          <button class="view-btn" data-image="project3.png">View project</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="panel" role="tabpanel" hidden>
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
+      <p>LinkedIn / GitHub / other links</p>
+    </section>
+
+    <div id="imageModal" class="modal" hidden>
+      <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <img id="modalImage" src="" alt="">
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
