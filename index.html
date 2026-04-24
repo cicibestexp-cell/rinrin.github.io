@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figma Preview — Floating Windows</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    *, *::before, *::after { animation: none !important; transition: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    body { background: #e8e0d5; padding: 40px; font-family: 'DM Sans', sans-serif; }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 28px; color: #3b2512; margin-bottom: 8px; }
+    .page-sub { color: #8a7060; font-size: 13px; margin-bottom: 48px; }
+    .modals-grid { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+    .modal-slot { flex: none; }
+    .slot-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #8a7060; margin-bottom: 10px; }
+
+    /* Force all drawers/panels to static layout */
+    .modal-slot #cart-drawer,
+    .modal-slot #checkout-drawer,
+    .modal-slot #auth-drawer,
+    .modal-slot .desk-ai-window {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      transform: none !important;
+      height: auto !important;
+      max-height: 90vh !important;
+      overflow-y: auto !important;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18) !important;
+      border-radius: 18px !important;
+    }
+    .modal-slot .dish-modal,
+    .modal-slot .map-modal {
+      position: relative !important;
+      inset: auto !important;
+      transform: none !important;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18) !important;
+    }
+    .modal-slot .dish-modal-overlay,
+    .modal-slot .modal-overlay { position: relative !important; display: block !important; background: none !important; }
+  </style>
+  <script>document.documentElement.setAttribute('data-theme', 'light');</script>
+</head>
+<body>
+
+<div class="page-title">Floating Windows — Figma Preview</div>
+<div class="page-sub">All modals and drawers from index.html, shown side by side with placeholder data.</div>
+
+<div class="modals-grid">
+
+  <!-- 1. CART DRAWER -->
+  <div class="modal-slot" style="width:340px;">
+    <div class="slot-label">1 — Cart Drawer</div>
+    <div id="cart-drawer" style="width:340px;">
+      <div class="cart-hdr">
+        <span class="cart-ttl">Custom Package</span>
+        <button class="cart-x">✕</button>
+      </div>
+      <div class="cart-items">
+        <div class="cart-pkg-block">
+          <div class="cart-pkg-name">18th Birthday (Debut) Package</div>
+          <div class="cart-pkg-meta">35 pax · Jul 5, 2026 · Garden Elegance</div>
+          <div class="cart-pkg-items">
+            <div class="cart-pkg-item"><span>Lechon de Leche</span><span>₱12,000</span></div>
+            <div class="cart-pkg-item"><span>Kare-Kare (per tray)</span><span>₱4,500</span></div>
+            <div class="cart-pkg-item"><span>Floral Arch</span><span>₱8,000</span></div>
+            <div class="cart-pkg-item"><span>Round Tables (x4)</span><span>₱6,000</span></div>
+            <div class="cart-pkg-item"><span>Live Band (4hr)</span><span>₱25,000</span></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="btn-outline" style="flex:1;font-size:12px;padding:8px;">✏️ Modify</button>
+            <button class="btn-outline" style="flex:1;font-size:12px;padding:8px;color:#c0392b;">🗑 Remove</button>
+          </div>
+        </div>
+      </div>
+      <div class="cart-ftr">
+        <div class="cart-tot-row">
+          <span class="cart-tot-lbl">Estimated Total</span>
+          <span class="cart-tot-amt">₱274,650</span>
+        </div>
+        <button class="btn-inquire">📩 Inquire / Book This Package</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CHECKOUT DRAWER -->
+  <div class="modal-slot" style="width:400px;">
+    <div class="slot-label">2 — Checkout Drawer</div>
+    <div id="checkout-drawer" style="width:400px;">
+      <div class="chk-hdr">
+        <span class="chk-ttl">Complete Reservation</span>
+        <button class="chk-x">✕</button>
+      </div>
+      <div class="chk-body">
+        <div class="chk-summary">
+          <div class="chk-sum-title">Custom Package (Cart)</div>
+          <div class="chk-sum-item" style="font-weight:600;color:var(--gold);"><span>18th Birthday (Debut) Package</span><span>₱274,650</span></div>
+          <div class="chk-sum-details" style="font-size:12px;color:var(--text-dim);margin-bottom:12px;padding:8px;background:var(--bg3);border-radius:8px;">
+            <div>• Lechon de Leche (Whole)</div><div>• Kare-Kare (per tray)</div><div>• Floral Arch (Full Ceremony)</div><div>• Round Tables (set of 10)</div><div>• Live Band (4-hour set)</div>
+          </div>
+          <div class="chk-sum-tot"><span>Estimated Total</span><span>₱274,650</span></div>
+        </div>
+        <div class="chk-form">
+          <div class="chk-field"><label>Event Date</label><input type="date" value="2026-07-05" readonly style="background:var(--bg3);cursor:not-allowed;" /></div>
+          <div class="chk-field"><label>Event Venue</label><div style="position:relative;display:flex;align-items:center;"><input type="text" value="STI College, EDSA-Munoz Footbridge, Quezon City" readonly style="background:var(--bg3);width:100%;padding:0 14px;height:38px;border:1px solid var(--border);border-radius:8px;" /><span style="position:absolute;right:10px;">📍</span></div></div>
+          <div class="chk-field"><label>Occasion</label><input type="text" value="Debut / 18th Birthday" readonly style="background:var(--bg3);cursor:not-allowed;" /></div>
+          <div class="chk-field"><label>Theme</label><input type="text" value="Garden Elegance" readonly style="background:var(--bg3);cursor:not-allowed;" /></div>
+          <div class="chk-field"><label>Guest Count (Pax)</label><input type="number" value="35" readonly style="background:var(--bg3);cursor:not-allowed;" /></div>
+          <div class="chk-field"><label>Payment Method</label><select><option selected>Online Payment</option><option>Cash on Event</option></select></div>
+        </div>
+      </div>
+      <div class="chk-ftr"><button class="btn-confirm">Confirm Reservation</button></div>
+    </div>
+  </div>
+
+  <!-- 3. LOGIN -->
+  <div class="modal-slot" style="width:380px;">
+    <div class="slot-label">3 — Login Drawer</div>
+    <div id="auth-drawer" style="width:380px;">
+      <div class="auth-hdr">
+        <div class="auth-brand">
+          <div class="auth-brand-icon">H</div>
+          <div><div class="auth-brand-name">Halden's</div><div class="auth-brand-sub">Event Management &amp; Catering</div></div>
+        </div>
+        <button class="auth-x">✕</button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active">Login</button>
+        <button class="auth-tab">Sign Up</button>
+      </div>
+      <div class="auth-body">
+        <div class="auth-panel active">
+          <div class="auth-welcome"><h3>Welcome back</h3><p>Log in to manage your reservations and saved packages.</p></div>
+          <div class="auth-field"><label>Email</label><input type="email" value="robert@email.com" /></div>
+          <div class="auth-field"><label>Password</label><div class="pass-input-wrap"><input type="password" value="password123" /><span class="pass-toggle">👁️</span></div></div>
+          <button class="auth-submit">Login to My Account</button>
+          <div class="auth-switch">Don't have an account? <a>Sign up here</a></div>
+          <button class="btn-google"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" style="height:16px;"> Continue with Google</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. SIGNUP STAGE 1 -->
+  <div class="modal-slot" style="width:380px;">
+    <div class="slot-label">4 — Sign Up (Account Details)</div>
+    <div id="auth-drawer" style="width:380px;">
+      <div class="auth-hdr">
+        <div class="auth-brand"><div class="auth-brand-icon">H</div><div><div class="auth-brand-name">Halden's</div><div class="auth-brand-sub">Event Management &amp; Catering</div></div></div>
+        <button class="auth-x">✕</button>
+      </div>
+      <div class="auth-tabs"><button class="auth-tab">Login</button><button class="auth-tab active">Sign Up</button></div>
+      <div class="auth-body">
+        <div class="auth-panel active">
+          <div class="signup-stepper">
+            <div class="signup-step active">1</div><div class="signup-line"></div>
+            <div class="signup-step">2</div><div class="signup-line"></div>
+            <div class="signup-step">3</div>
+          </div>
+          <div class="auth-welcome"><h3>Create an account</h3><p>Sign up to save your custom packages and track your reservations.</p></div>
+          <div class="row2">
+            <div class="auth-field"><label>First Name</label><input type="text" value="Maria" /></div>
+            <div class="auth-field"><label>Last Name</label><input type="text" value="Santos" /></div>
+          </div>
+          <div class="auth-field"><label>Phone Number</label><input type="text" value="09171234567" /></div>
+          <div class="auth-field"><label>Email</label><input type="email" value="maria.santos@email.com" /></div>
+          <div class="auth-field"><label>Password</label><div class="pass-input-wrap"><input type="password" value="mypassword" /><span class="pass-toggle">👁️</span></div></div>
+          <button class="auth-submit">Next: Verify ID →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SIGNUP STAGE 2 — ID Scanner -->
+  <div class="modal-slot" style="width:380px;">
+    <div class="slot-label">5 — Sign Up (ID Scanner)</div>
+    <div id="auth-drawer" style="width:380px;">
+      <div class="auth-hdr">
+        <div class="auth-brand"><div class="auth-brand-icon">H</div><div><div class="auth-brand-name">Halden's</div><div class="auth-brand-sub">Event Management &amp; Catering</div></div></div>
+        <button class="auth-x">✕</button>
+      </div>
+      <div class="auth-tabs"><button class="auth-tab">Login</button><button class="auth-tab active">Sign Up</button></div>
+      <div class="auth-body">
+        <div class="auth-panel active">
+          <div class="signup-stepper">
+            <div class="signup-step">1</div><div class="signup-line"></div>
+            <div class="signup-step active">2</div><div class="signup-line"></div>
+            <div class="signup-step">3</div>
+          </div>
+          <div class="auth-welcome"><h3>Verify Identity</h3><p>Scan your physical Government ID to complete your registration.</p></div>
+          <div class="scanner-container">
+            <div class="liveness-bar">
+              <div class="liveness-label-row"><span>Position your ID...</span><span>62%</span></div>
+              <div class="liveness-track"><div class="liveness-fill" style="width:62%;"></div></div>
+            </div>
+            <div class="camera-preview-wrap" style="background:#1a1a2e;border-radius:12px;aspect-ratio:4/3;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px;">📷 Camera Preview</div>
+              <div class="scan-overlay">
+                <div class="scan-id-frame">
+                  <div class="corner tl"></div><div class="corner tr"></div>
+                  <div class="corner bl"></div><div class="corner br"></div>
+                  <div class="scan-laser" style="top:50%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="scan-checks">
+              <div class="scan-pill pass">QR Code</div>
+              <div class="scan-pill">Motion</div>
+              <div class="scan-pill">Details</div>
+            </div>
+            <div class="scan-status-box"><span>Step 2: Scanning Front — slide ID left/right</span></div>
+          </div>
+          <button class="btn-back-auth">← Back to Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AI CHAT WINDOW -->
+  <div class="modal-slot" style="width:380px;">
+    <div class="slot-label">6 — AI Chat Window</div>
+    <div class="desk-ai-window" style="width:380px;height:560px;display:flex;flex-direction:column;">
+      <div class="daw-hdr">
+        <div class="daw-hdr-left"><div class="ai-ava"></div><div><div class="ai-name">Halden's AI Planner</div><div class="ai-status"><div class="ai-dot"></div>Ready to assist</div></div></div>
+        <button class="daw-close">✕</button>
+      </div>
+      <div class="daw-context-bar" style="padding:8px 14px;font-size:11px;color:var(--text-dim);background:var(--bg3);">📋 18th Birthday · 35 pax · Garden Elegance · Jul 5, 2026</div>
+      <div class="ai-msgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;">
+        <div class="ai-msg ai"><div class="ai-bubble">Hello! I've reviewed your 18th Birthday (Debut) Package. You have great selections! Would you like me to suggest additional décor items that match your Garden Elegance theme?</div></div>
+        <div class="ai-msg user"><div class="ai-bubble" style="background:var(--primary);color:var(--brown);align-self:flex-end;">Yes, what do you suggest for the Garden Elegance theme?</div></div>
+        <div class="ai-msg ai"><div class="ai-bubble">Great choice! For a Garden Elegance Debut, I recommend adding floral centrepieces, fairy light curtains, and a dessert table with fresh flower accents. These will complement your existing Floral Arch beautifully.</div></div>
+      </div>
+      <div class="ai-chips" style="padding:8px 14px;display:flex;gap:6px;flex-wrap:wrap;">
+        <span class="ai-chip">Review my package</span>
+        <span class="ai-chip">Budget check</span>
+        <span class="ai-chip">Suggest add-ons</span>
+      </div>
+      <div class="ai-inp-row">
+        <textarea class="ai-inp" placeholder="Describe your event or ask about your package..." rows="1"></textarea>
+        <button class="ai-send">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. PACKAGE DETAILS MODAL -->
+  <div class="modal-slot" style="width:620px;">
+    <div class="slot-label">7 — Package Details Modal</div>
+    <div class="dish-modal" style="width:620px;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+      <div class="dm-header" style="height:220px;border-radius:0;background:url('https://res.cloudinary.com/dg8ytmck5/image/upload/v1774321988/halden1_sdv4yf.png') center/cover;position:relative;">
+        <div class="dm-close" style="position:absolute;top:12px;right:12px;">×</div>
+      </div>
+      <div class="dm-body" style="padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div><span class="dm-label" style="background:var(--primary);color:white;padding:4px 12px;border-radius:20px;">Premium Package</span><h2 class="dm-title" style="font-size:26px;margin-top:10px;">Royal Garden Wedding</h2></div>
+          <div style="font-size:24px;font-weight:700;color:var(--primary);">Starting ₱180,000</div>
+        </div>
+        <p style="color:var(--text-mid);margin:10px 0 18px;font-size:15px;">A lush, romantic garden wedding experience with full catering, floral décor, and premium entertainment for up to 150 guests.</p>
+        <div style="display:flex;gap:20px;background:var(--cream);padding:14px;border-radius:10px;margin-bottom:20px;">
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Theme</label><div style="font-weight:600;color:var(--brown);margin-top:4px;">Garden Elegance</div></div>
+          <div style="flex:1;"><label style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Occasion</label><div style="font-weight:600;color:var(--brown);margin-top:4px;">Wedding</div></div>
+        </div>
+        <div class="cpkg-cat-hdr" style="margin-top:0;border-top:1px solid var(--border);padding-top:16px;font-size:13px;color:var(--primary);font-weight:700;margin-bottom:12px;">INCLUDED IN THIS PACKAGE</div>
+        <div class="ingredients-grid" style="margin-bottom:24px;">
+          <span class="ingredient-pill">Lechon de Leche</span><span class="ingredient-pill">Kare-Kare</span><span class="ingredient-pill">Floral Arch</span><span class="ingredient-pill">Round Tables (x15)</span><span class="ingredient-pill">Tiffany Chairs (x150)</span><span class="ingredient-pill">LED Fairy Lights</span><span class="ingredient-pill">Photo &amp; Video (Full Day)</span><span class="ingredient-pill">Live Band (4hr)</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;border-top:1px solid var(--border);padding-top:18px;">
+          <button class="btn-finalize" style="width:auto;padding:14px 36px;border-radius:50px;">Select and Customize this Package</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. ITEM DETAILS MODAL (with allergy disclaimer) -->
+  <div class="modal-slot" style="width:420px;">
+    <div class="slot-label">8 — Item Details / Ingredient Modal</div>
+    <div class="dish-modal" style="width:420px;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+      <div class="dm-header" style="height:160px;border-radius:0;background:url('https://res.cloudinary.com/dg8ytmck5/image/upload/v1774321988/halden1_sdv4yf.png') center/cover;position:relative;">
+        <div class="dm-close" style="position:absolute;top:12px;right:12px;">×</div>
+      </div>
+      <div class="dm-body">
+        <span class="dm-label">Ingredients &amp; Highlights</span>
+        <h2 class="dm-title">Kare-Kare (per tray / 50 pax)</h2>
+        <div id="dm-price-info" style="margin-bottom:12px;color:var(--primary);font-weight:700;font-size:18px;">₱4,500 <span style="font-size:12px;color:var(--text-dim);font-weight:400;">serves 50 pax (1 tray)</span></div>
+        <div class="ingredients-grid">
+          <span class="ingredient-pill">Beef Oxtail</span><span class="ingredient-pill">Tripe</span><span class="ingredient-pill">Peanut Sauce</span><span class="ingredient-pill">Eggplant</span><span class="ingredient-pill">Banana Blossom</span><span class="ingredient-pill">String Beans</span><span class="ingredient-pill">Bagoong</span><span class="ingredient-pill">Shrimp Paste</span>
+        </div>
+        <div class="allergy-disclaimer">
+          <div class="ad-icon">⚠️</div>
+          <div class="ad-text"><strong>Allergy Disclaimer:</strong> Please check the ingredients thoroughly if you are allergic to any items used within this dish.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. GPS MAP MODAL -->
+  <div class="modal-slot" style="width:480px;">
+    <div class="slot-label">9 — GPS Map / Venue Modal</div>
+    <div class="map-modal" style="width:480px;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+      <div class="map-hdr">
+        <div class="map-title-row"><div class="map-ttl">📍 Choose Location</div><p class="map-instruction">Search for an address within NCR and confirm your venue.</p></div>
+        <button class="map-x">✕</button>
+      </div>
+      <div class="map-body">
+        <div class="map-search-row">
+          <input type="text" value="STI College, Quezon City" />
+          <button class="btn-map-search">Search</button>
+        </div>
+        <div style="width:100%;height:260px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:13px;overflow:hidden;">
+          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=121.00,14.63,121.03,14.66&layer=mapnik&marker=14.648,121.013" style="width:100%;height:100%;border:none;" scrolling="no"></iframe>
+        </div>
+      </div>
+      <div class="map-ftr"><button class="btn-confirm-map">Confirm Location</button></div>
+    </div>
+  </div>
+
+  <!-- 10. NAME YOUR PACKAGE MODAL -->
+  <div class="modal-slot" style="width:380px;">
+    <div class="slot-label">10 — Name Your Package Modal</div>
+    <div class="dish-modal" style="width:380px;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+      <div class="dm-header" style="background:var(--primary);height:80px;border-radius:0;display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:32px;">🏷️</div>
+      </div>
+      <div class="dm-body" style="padding:30px;text-align:center;">
+        <h2 class="dm-title" style="margin-bottom:10px;">Name Your Package</h2>
+        <p style="color:var(--text-mid);font-size:14px;margin-bottom:20px;">Give your custom creation a memorable name.</p>
+        <div class="cpkg-field" style="text-align:left;">
+          <label>Package Name</label>
+          <input type="text" class="cpkg-input" value="Garden Debut" placeholder="e.g. Dream Wedding" />
+          <div style="font-size:12px;color:var(--text-dim);margin-top:8px;">* "Package" will be automatically appended.</div>
+        </div>
+        <button class="btn-finalize" style="margin-top:20px;width:100%;">Save and Add to Cart</button>
+        <button style="background:none;border:none;color:var(--text-dim);margin-top:15px;font-size:12px;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /modals-grid -->
+</body>
+</html>
