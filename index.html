@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<title>Figma — Customer Dashboard (Flat Layout)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+*,*::before,*::after{animation:none!important;transition:none!important;backdrop-filter:none!important}
+body{background:var(--bg);color:var(--text)}
+.figma-screen{display:flex;width:100%;min-height:100vh;border-bottom:6px solid var(--gold);margin-bottom:0}
+.figma-label{background:var(--gold);color:#000;font-size:11px;font-weight:800;padding:6px 16px;letter-spacing:2px;text-transform:uppercase;position:sticky;top:0;z-index:999}
+.sidebar-fixed{width:260px;min-width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0}
+.screen-content{flex:1;overflow:auto;display:flex;flex-direction:column}
+.topbar{height:64px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.placeholder-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:15px}
+.res-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+.log-row{display:flex;gap:15px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}
+.log-dot{width:10px;height:10px;border-radius:50%;background:#2ecc71;margin-top:4px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- SHARED SIDEBAR COMPONENT (reference) -->
+<!-- ================================================================ -->
+<div class="figma-label">COMPONENT — Sidebar Navigation</div>
+<div style="display:flex;width:320px;min-height:400px;background:var(--bg2);border:1px solid var(--border)">
+  <div class="sidebar-fixed" style="width:100%">
+    <div class="dash-brand" style="padding:0 20px 20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item active"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags <span class="sidebar-badge" style="position:static;margin-left:8px">2</span></div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:20px">
+      <div class="dash-user-ava">JD</div>
+      <div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div><div class="dash-user-email">juan@email.com</div></div>
+    </div>
+    <div style="padding:0 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 1 — MY RESERVATIONS -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 1 — My Reservations</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item active"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div><div class="dash-user-email">juan@email.com</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>My Reservations</h1><p>Track your event status and history</p></div>
+      <!-- Join Meeting bar -->
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(196,154,60,0.08);border:1px solid rgba(196,154,60,0.25);border-radius:12px;padding:10px 16px;margin-bottom:20px;width:fit-content">
+        <span style="font-size:12px;color:var(--text-mid);font-weight:600">🤝 Join Meeting:</span>
+        <input type="text" placeholder="MTG-XXXXXXXX" style="font-family:monospace;width:130px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:12px"/>
+        <button class="btn-primary" style="font-size:12px;padding:7px 16px;border-radius:8px">Join →</button>
+      </div>
+      <!-- Approved Banner -->
+      <div style="padding:40px;background:linear-gradient(145deg,#163d23,#214d2e);border-radius:24px;display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:20px">
+        <div><h2 style="color:#fff;margin:0 0 12px">Reservation Approved!</h2><p style="color:rgba(255,255,255,0.8);margin:0 0 20px;line-height:1.6">Your event is officially confirmed. Access the full Planning Hub to manage logistics, guest lists, and payments in real-time.</p><button class="btn-primary" style="background:var(--gold);color:#000;border:none;padding:14px 28px;border-radius:12px;font-weight:700">Access Planning Hub →</button></div>
+        <div style="font-size:90px">✅</div>
+      </div>
+      <!-- Meeting booked banner -->
+      <div style="display:flex;padding:16px 24px;background:linear-gradient(145deg,#4d1616,#8b1e1e);border-radius:16px;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:14px"><div style="background:rgba(255,255,255,0.15);width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">📅</div><div><h4 style="color:#fff;margin:0;font-size:16px">Meeting Booked!</h4><p style="color:rgba(255,255,255,0.8);margin:2px 0 0;font-size:12px">Review your consultation agenda and details.</p></div></div>
+        <div style="font-size:12px;color:#fff;font-weight:800;background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:10px;text-transform:uppercase;letter-spacing:1.5px">Review →</div>
+      </div>
+      <!-- Reservation groups -->
+      <div class="dash-res-groups">
+        <div class="res-group res-group-approved">
+          <div class="res-group-hdr"><span class="rg-icon">✅</span> Approved / Confirmed <span class="rg-count">1</span></div>
+          <div class="res-card"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:11px;color:var(--gold);font-weight:700">#RES-8821</div><div style="font-size:18px;font-weight:700;margin-top:4px">Grand Victorian Wedding</div><div style="font-size:13px;color:var(--text-dim);margin-top:4px">📅 Oct 15, 2024 &nbsp;•&nbsp; 👥 150 Guests &nbsp;•&nbsp; 📍 The Grand Ballroom</div></div><span class="status-badge" style="background:#2ecc71;color:#fff">Confirmed</span></div><button class="btn-outline" style="margin-top:16px;width:100%">Manage Planning Hub →</button></div>
+        </div>
+        <div class="res-group-rest">
+          <div class="res-group"><div class="res-group-hdr"><span class="rg-icon">🔄</span> Processing <span class="rg-count">1</span></div>
+            <div class="res-card"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:11px;color:var(--gold);font-weight:700">#RES-9104</div><div style="font-size:18px;font-weight:700;margin-top:4px">Corporate Gala Night</div><div style="font-size:13px;color:var(--text-dim);margin-top:4px">📅 Nov 20, 2024 &nbsp;•&nbsp; 👥 80 Guests</div></div><span class="status-badge status-pending">Processing</span></div></div>
+          </div>
+          <div class="res-group"><div class="res-group-hdr"><span class="rg-icon">❌</span> Rejected <span class="rg-count">0</span></div><div style="padding:30px;text-align:center;color:var(--text-dim);font-size:13px">No rejected reservations.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 2 — EVENT CALENDAR -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 2 — Event Calendar</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item active"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>Event Calendar</h1><p>View your scheduled events and meeting dates</p></div>
+      <div class="panel" style="background:var(--bg2);padding:20px;border-radius:16px;min-height:500px">
+        <!-- Calendar grid placeholder -->
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px">
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Sun</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Mon</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Tue</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Wed</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Thu</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Fri</div>
+          <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-dim);padding:8px">Sat</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-dim)">1</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">2</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">3</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">4</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:rgba(196,154,60,0.08);border-color:var(--gold)"><div style="font-weight:700;color:var(--gold)">5</div><div style="font-size:10px;background:var(--gold);color:#000;border-radius:4px;padding:2px 5px;margin-top:4px">Meeting</div></div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">6</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">7</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">8</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">9</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">10</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">11</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">12</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">13</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">14</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:rgba(46,204,113,0.08);border-color:#2ecc71"><div style="font-weight:700;color:#2ecc71">15</div><div style="font-size:10px;background:#2ecc71;color:#fff;border-radius:4px;padding:2px 5px;margin-top:4px">Event Day</div></div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">16</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">17</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">18</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">19</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px">20</div>
+          <div style="padding:10px;min-height:80px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-dim)">21</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 3 — MEETINGS -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 3 — Meetings</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item active"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>My Meetings</h1><p>View consultations and contract signings</p></div>
+      <!-- Meeting card -->
+      <div class="res-card" style="border-left:5px solid var(--gold)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+          <div>
+            <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px">Contract Finalization</div>
+            <div style="font-size:18px;font-weight:700;margin-top:4px">Pre-Event Contract Meeting</div>
+            <div style="font-size:13px;color:var(--text-dim);margin-top:6px">📅 October 5, 2024 &nbsp;•&nbsp; 🕐 2:00 PM – 4:00 PM</div>
+            <div style="font-size:13px;color:var(--text-dim);margin-top:4px">🏠 Room ID: <strong style="font-family:monospace;color:var(--gold)">MTG-4F2A8B1C</strong> &nbsp;•&nbsp; 📍 Virtual Room</div>
+          </div>
+          <span class="status-badge status-waiting" style="background:#e67e22;color:#fff">Upcoming</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;padding:14px;background:var(--bg3);border-radius:10px">
+          <div><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">Agenda</div><div style="font-size:13px;margin-top:4px">Contract Finalization &amp; Review</div></div>
+          <div><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">Attendees</div><div style="font-size:13px;margin-top:4px">Juan Dela Cruz, Event Coordinator</div></div>
+        </div>
+        <button class="btn-primary" style="width:100%">Enter Virtual Meeting Room →</button>
+      </div>
+      <!-- Office map placeholder -->
+      <div style="margin-top:30px;padding:24px;background:var(--bg2);border-radius:16px;border:1px solid var(--border)">
+        <h3 style="color:var(--gold);margin-bottom:12px;font-size:16px">📍 Office Location</h3>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:15px">You can visit us at our main office for physical consultations.</p>
+        <div style="height:300px;background:linear-gradient(135deg,#e8f4e8,#d4e8d4);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:40px">🗺️</div>
+        <button class="btn-outline" style="margin-top:15px;width:100%;justify-content:center">Open in Google Maps ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 4 — RESERVATION DETAILS: Main Dashboard -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 4 — Reservation Details: Main Dashboard</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item active"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="page-hdr"><div class="page-hdr-left"><h1>Reservation Details</h1><p>Comprehensive oversight of approved bookings and operational execution</p></div></div>
+      <!-- Selector bar -->
+      <div style="margin-bottom:20px;padding:16px 20px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:20px">
+        <span style="font-size:24px">📅</span>
+        <label style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;white-space:nowrap">Active Reservation</label>
+        <div style="flex:1;max-width:600px;height:46px;display:flex;align-items:center;padding:0 15px;font-weight:700;background:var(--bg3);border:1px solid var(--gold);border-radius:10px;font-size:14px">#RES-98214 — Grand Victorian Wedding — Oct 15, 2024</div>
+      </div>
+      <!-- Sub-tabs -->
+      <div class="panel" style="margin-bottom:20px"><div class="tab-bar">
+        <button class="tab-btn active">Main Dashboard</button>
+        <button class="tab-btn">Logistics Timeline</button>
+        <button class="tab-btn">Procurement Hub</button>
+        <button class="tab-btn">Guest &amp; Seating</button>
+        <button class="tab-btn">Design</button>
+        <button class="tab-btn">Venue Details</button>
+        <button class="tab-btn">Food Tasted</button>
+        <button class="tab-btn">Final Summary</button>
+        <button class="tab-btn">Staff Allocation</button>
+        <button class="tab-btn">Final Rundown</button>
+      </div></div>
+      <!-- Main content two-col -->
+      <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px">
+        <div style="border:1px solid var(--border);border-radius:24px;background:var(--bg2);overflow:hidden">
+          <div class="billing-hdr" style="padding:32px"><h2 style="margin:0;color:#fff;font-size:28px">Preparing Phase</h2><p style="opacity:0.75;margin:8px 0 0">Your event is being staged by the logistics team</p></div>
+          <div style="padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:15px">
+            <div style="text-align:center;padding:20px;background:rgba(196,154,60,0.07);border-radius:14px;border:1px solid rgba(196,154,60,0.2)"><div style="font-size:22px">📦</div><div style="font-size:11px;font-weight:700;color:var(--gold);margin-top:8px">PROCUREMENT</div><div style="font-size:18px;font-weight:800;margin-top:4px">85%</div></div>
+            <div style="text-align:center;padding:20px;background:rgba(46,204,113,0.07);border-radius:14px;border:1px solid rgba(46,204,113,0.2)"><div style="font-size:22px">🚚</div><div style="font-size:11px;font-weight:700;color:#2ecc71;margin-top:8px">LOGISTICS</div><div style="font-size:18px;font-weight:800;margin-top:4px">Ready</div></div>
+            <div style="text-align:center;padding:20px;background:rgba(52,152,219,0.07);border-radius:14px;border:1px solid rgba(52,152,219,0.2)"><div style="font-size:22px">👔</div><div style="font-size:11px;font-weight:700;color:#3498db;margin-top:8px">STAFFING</div><div style="font-size:18px;font-weight:800;margin-top:4px">12 Set</div></div>
+          </div>
+          <div style="padding:0 24px 24px">
+            <h3 style="font-size:13px;color:var(--gold);margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px">Recent Activity</h3>
+            <div class="log-row"><div class="log-dot"></div><div><div style="font-size:13px;font-weight:600">Beverage inventory secured and chilled.</div><div style="font-size:11px;color:var(--text-dim)">Procurement • 10:45 AM</div></div></div>
+            <div class="log-row"><div class="log-dot"></div><div><div style="font-size:13px;font-weight:600">Transport vehicle V-09 dispatched for site inspection.</div><div style="font-size:11px;color:var(--text-dim)">Logistics • 09:12 AM</div></div></div>
+            <div class="log-row"><div class="log-dot" style="background:#f39c12"></div><div><div style="font-size:13px;font-weight:600">Floral arrangement delayed — ETA rescheduled to Oct 12.</div><div style="font-size:11px;color:var(--text-dim)">Decor • Yesterday</div></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <!-- Event info card -->
+          <div class="panel"><div class="panel-hdr"><div class="panel-title">Event Summary</div></div><div class="panel-body" style="padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">Event Date</span><span style="font-size:13px;font-weight:600">October 15, 2024</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">Timeframe</span><span style="font-size:13px;font-weight:600">8:00 AM – 10:00 PM</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">Venue</span><span style="font-size:13px;font-weight:600">The Grand Ballroom</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">Guest Count</span><span style="font-size:13px;font-weight:600">150 Guests</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">Package</span><span style="font-size:13px;font-weight:600">Royal Wedding Package</span></div>
+          </div></div>
+          <!-- Flags -->
+          <div class="panel"><div class="panel-hdr"><div class="panel-title">⚡ Action Flags</div></div><div class="panel-body" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+            <div style="padding:10px;background:rgba(231,76,60,0.1);border-radius:10px;font-size:12px;color:#e74c3c;border-left:3px solid #e74c3c">🚩 Confirm Final Beverage List</div>
+            <div style="padding:10px;background:rgba(241,196,15,0.1);border-radius:10px;font-size:12px;color:#e67e22;border-left:3px solid #e67e22">🚩 Review Updated Seating Layout</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 5 — RESERVATION DETAILS: Logistics Timeline -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 5 — Reservation Details: Logistics Timeline</div>
+<div class="figma-screen" style="flex-direction:column">
+  <div style="display:flex;flex:1">
+    <div class="sidebar-fixed">
+      <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+      <div class="dash-nav">
+        <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+        <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+        <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+        <div class="dash-nav-item active"><span class="dn-icon">👁️</span> Reservation Details</div>
+        <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+        <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+        <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+      </div>
+      <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+      <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+    </div>
+    <div class="screen-content">
+      <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+      <div style="padding:30px">
+        <div style="margin-bottom:20px;padding:14px 20px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:16px">
+          <span style="font-size:20px">📅</span>
+          <span style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase">Active:</span>
+          <span style="font-weight:700">#RES-98214 — Grand Victorian Wedding — Oct 15, 2024</span>
+        </div>
+        <div class="panel" style="margin-bottom:20px"><div class="tab-bar">
+          <button class="tab-btn">Main Dashboard</button>
+          <button class="tab-btn active">Logistics Timeline</button>
+          <button class="tab-btn">Procurement Hub</button>
+          <button class="tab-btn">Guest &amp; Seating</button>
+          <button class="tab-btn">Final Rundown</button>
+        </div></div>
+        <div class="panel"><div class="panel-hdr"><div><div class="panel-title">Logistics Timeline</div><div class="panel-sub">Operational execution status and activity logs</div></div></div>
+          <div class="panel-body" style="padding:20px">
+            <!-- Analytics row -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px">
+              <div style="background:var(--bg3);border-radius:14px;padding:16px;text-align:center"><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">Event Countdown</div><div style="font-size:22px;font-weight:800;color:var(--gold);margin-top:6px">10 Days</div></div>
+              <div style="background:var(--bg3);border-radius:14px;padding:16px;text-align:center"><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">Milestones</div><div style="font-size:22px;font-weight:800;color:#2ecc71;margin-top:6px">3 / 5</div></div>
+              <div style="background:var(--bg3);border-radius:14px;padding:16px;text-align:center"><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">Tasks Done</div><div style="font-size:22px;font-weight:800;color:#3498db;margin-top:6px">18 / 24</div></div>
+              <div style="background:var(--bg3);border-radius:14px;padding:16px;text-align:center"><div style="font-size:11px;color:var(--text-dim);font-weight:700;text-transform:uppercase">On Schedule</div><div style="font-size:22px;font-weight:800;color:#2ecc71;margin-top:6px">✓ Yes</div></div>
+            </div>
+            <!-- Milestone boxes -->
+            <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;margin-bottom:20px">
+              <div style="min-width:160px;padding:16px;background:rgba(46,204,113,0.1);border:2px solid #2ecc71;border-radius:14px;cursor:pointer"><div style="font-size:10px;font-weight:700;color:#2ecc71;text-transform:uppercase">✓ Done</div><div style="font-weight:700;margin-top:4px;font-size:13px">Venue Setup</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Oct 1–3</div></div>
+              <div style="min-width:160px;padding:16px;background:rgba(46,204,113,0.1);border:2px solid #2ecc71;border-radius:14px;cursor:pointer"><div style="font-size:10px;font-weight:700;color:#2ecc71;text-transform:uppercase">✓ Done</div><div style="font-weight:700;margin-top:4px;font-size:13px">Procurement</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Oct 4–8</div></div>
+              <div style="min-width:160px;padding:16px;background:rgba(196,154,60,0.1);border:2px solid var(--gold);border-radius:14px;cursor:pointer"><div style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase">● In Progress</div><div style="font-weight:700;margin-top:4px;font-size:13px">Staff Briefing</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Oct 9–11</div></div>
+              <div style="min-width:160px;padding:16px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;cursor:pointer;opacity:0.6"><div style="font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase">○ Pending</div><div style="font-weight:700;margin-top:4px;font-size:13px">Final Check</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Oct 12–14</div></div>
+              <div style="min-width:160px;padding:16px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;cursor:pointer;opacity:0.6"><div style="font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase">○ Pending</div><div style="font-weight:700;margin-top:4px;font-size:13px">Event Day</div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Oct 15</div></div>
+            </div>
+            <!-- Activity Logs section -->
+            <div class="panel" style="border-top:4px solid var(--gold);margin-bottom:20px">
+              <div class="panel-hdr"><div><div class="panel-title">Logging of Activities</div><div class="panel-sub">Official record of completed operational tasks and milestones</div></div></div>
+              <div class="panel-body" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:var(--bg3);border-radius:12px"><div style="width:8px;height:8px;background:#2ecc71;border-radius:50%;margin-top:5px;flex-shrink:0"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">Floral centerpieces delivered and placed on tables 1–12.</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px">Decor Team • Oct 8, 2024 • 3:15 PM</div></div><span class="status-badge status-paid" style="font-size:10px">Logged</span></div>
+                <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:var(--bg3);border-radius:12px"><div style="width:8px;height:8px;background:#2ecc71;border-radius:50%;margin-top:5px;flex-shrink:0"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">Chivari chairs unboxed, inspected, and arranged per seating layout.</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px">Equipment Team • Oct 7, 2024 • 11:30 AM</div></div><span class="status-badge status-paid" style="font-size:10px">Logged</span></div>
+                <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:var(--bg3);border-radius:12px"><div style="width:8px;height:8px;background:#2ecc71;border-radius:50%;margin-top:5px;flex-shrink:0"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">Kitchen inventory received: beef, seafood, and pastries confirmed fresh.</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px">Kitchen Lead • Oct 6, 2024 • 7:00 AM</div></div><span class="status-badge status-paid" style="font-size:10px">Logged</span></div>
+                <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:var(--bg3);border-radius:12px"><div style="width:8px;height:8px;background:#f39c12;border-radius:50%;margin-top:5px;flex-shrink:0"></div><div style="flex:1"><div style="font-size:13px;font-weight:600">Transport for venue logistics delayed — rescheduled to 6:00 AM Oct 9.</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px">Logistics • Oct 5, 2024 • 5:00 PM</div></div><span class="status-badge status-pending" style="font-size:10px">Noted</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 6 — RESERVATION DETAILS: Procurement Hub -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 6 — Reservation Details: Procurement Hub</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item active"><span class="dn-icon">👁️</span> Reservation Details</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat</button><button class="dash-close">✕ Close</button></div></div>
+    <div style="padding:30px">
+      <div class="panel" style="margin-bottom:20px"><div class="tab-bar">
+        <button class="tab-btn">Main Dashboard</button>
+        <button class="tab-btn">Logistics Timeline</button>
+        <button class="tab-btn active">Procurement Hub</button>
+        <button class="tab-btn">Guest &amp; Seating</button>
+        <button class="tab-btn">Final Rundown</button>
+      </div></div>
+      <!-- Analytics -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center"><div style="font-size:22px">🍽️</div><div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-weight:700">DISHES</div><div style="font-size:20px;font-weight:800;margin-top:4px">12</div></div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center"><div style="font-size:22px">🪑</div><div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-weight:700">EQUIPMENT</div><div style="font-size:20px;font-weight:800;margin-top:4px">8</div></div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center"><div style="font-size:22px">🎨</div><div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-weight:700">DECOR</div><div style="font-size:20px;font-weight:800;margin-top:4px">6</div></div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center"><div style="font-size:22px">👔</div><div style="font-size:10px;color:var(--text-dim);margin-top:6px;font-weight:700">PERSONNEL</div><div style="font-size:20px;font-weight:800;margin-top:4px">12</div></div>
+      </div>
+      <!-- 4-col grid -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <div class="proc-col"><div class="proc-col-hdr"><div class="proc-col-title">🍽️ Dishes</div></div><div class="proc-col-body">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Beef Caldereta</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Lechon Baboy</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Pasta Alfredo</span><span style="font-size:10px;background:#f39c12;color:#fff;padding:2px 6px;border-radius:4px">Pending</span></div>
+        </div></div>
+        <div class="proc-col"><div class="proc-col-hdr"><div class="proc-col-title">🪑 Equipment</div></div><div class="proc-col-body">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Chivari Chairs (150)</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Round Tables (20)</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>LED Uplights</span><span style="font-size:10px;background:#3498db;color:#fff;padding:2px 6px;border-radius:4px">In Transit</span></div>
+        </div></div>
+        <div class="proc-col"><div class="proc-col-hdr"><div class="proc-col-title">🎨 Decor</div></div><div class="proc-col-body">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Silk Floral Arch</span><span style="font-size:10px;background:#3498db;color:#fff;padding:2px 6px;border-radius:4px">In Transit</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Table Centerpieces</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Draping Fabric</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Secured</span></div>
+        </div></div>
+        <div class="proc-col"><div class="proc-col-hdr"><div class="proc-col-title">👔 Personnel</div></div><div class="proc-col-body">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Waitstaff (10)</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Assigned</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Head Chef</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Assigned</span></div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Event Coordinator</span><span style="font-size:10px;background:#2ecc71;color:#fff;padding:2px 6px;border-radius:4px">Assigned</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 7 — RESERVATION DETAILS: Guest & Seating -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 7 — Reservation Details: Guest &amp; Seating</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav"><div class="dash-nav-item active"><span class="dn-icon">👁️</span> Reservation Details</div></div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat</button><button class="dash-close">✕ Close</button></div></div>
+    <div style="padding:30px">
+      <div class="panel" style="margin-bottom:20px"><div class="tab-bar">
+        <button class="tab-btn">Main Dashboard</button><button class="tab-btn">Logistics Timeline</button><button class="tab-btn">Procurement Hub</button>
+        <button class="tab-btn active">Guest &amp; Seating</button><button class="tab-btn">Final Rundown</button>
+      </div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div class="panel"><div class="panel-hdr"><div class="panel-title">Guest List</div><button class="btn-primary" style="font-size:11px">+ Add Row</button></div>
+          <div class="panel-body"><table style="width:100%;font-size:13px;border-collapse:collapse">
+            <tr style="border-bottom:1px solid var(--border)"><th style="padding:10px;text-align:left;font-size:11px;color:var(--text-dim)">Name</th><th style="padding:10px;text-align:left;font-size:11px;color:var(--text-dim)">Table</th><th style="padding:10px;text-align:left;font-size:11px;color:var(--text-dim)">Meal</th><th style="padding:10px;text-align:left;font-size:11px;color:var(--text-dim)">VIP</th></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px">John Smith</td><td style="padding:10px">T-01</td><td style="padding:10px">Standard</td><td style="padding:10px">—</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px">Jane Doe</td><td style="padding:10px">T-01</td><td style="padding:10px">Vegan</td><td style="padding:10px">—</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(196,154,60,0.05)"><td style="padding:10px;font-weight:700;color:var(--gold)">Gov. Ramon Reyes</td><td style="padding:10px">VIP-01</td><td style="padding:10px">Premium</td><td style="padding:10px">⭐</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px">Maria Cruz</td><td style="padding:10px">T-02</td><td style="padding:10px">Standard</td><td style="padding:10px">—</td></tr>
+          </table>
+          <button class="btn-primary" style="font-size:11px;margin-top:12px">Save Guest List</button></div>
+        </div>
+        <div class="panel"><div class="panel-hdr"><div class="panel-title">Seating Layout</div></div>
+          <div class="panel-body">
+            <div style="background:var(--bg3);height:400px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text-dim)">
+              <div style="font-size:40px">🪑</div>
+              <div style="font-size:13px;font-weight:600">Seating Layout</div>
+              <div style="font-size:12px;text-align:center;max-width:200px">Visual seating chart is generated after guest list is finalized.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 8 — PAYMENTS: Statement of Account -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 8 — Payments: Statement of Account</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item active"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>Payments</h1><p>View your payment breakdown and pay online or via cash</p></div>
+      <div class="billing-card">
+        <div class="billing-hdr">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+            <div><h2 style="margin:0;font-size:22px">Statement of Account</h2><div style="font-size:12px;opacity:0.7;margin-top:4px">Grand Victorian Wedding • #RES-8821 • Oct 15, 2024</div></div>
+            <div style="text-align:right"><div style="font-size:11px;opacity:0.6;text-transform:uppercase">Contract Amount</div><div style="font-size:30px;font-weight:800;color:var(--gold)">₱150,000.00</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center"><div style="font-size:10px;opacity:0.7;font-weight:700;text-transform:uppercase">Total Paid</div><div style="font-size:18px;font-weight:800;color:#2ecc71;margin-top:4px">₱15,000</div></div>
+            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center"><div style="font-size:10px;opacity:0.7;font-weight:700;text-transform:uppercase">Remaining</div><div style="font-size:18px;font-weight:800;color:#e74c3c;margin-top:4px">₱135,000</div></div>
+            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center"><div style="font-size:10px;opacity:0.7;font-weight:700;text-transform:uppercase">Status</div><div style="font-size:18px;font-weight:800;color:#f39c12;margin-top:4px">Partial</div></div>
+          </div>
+        </div>
+        <div class="billing-body">
+          <div class="installment-row">
+            <div class="inst-info"><div class="inst-label">PART 1</div><div class="inst-title">Reservation Fee (10%)</div><div style="font-size:11px;color:var(--text-dim);margin-top:3px">₱15,000.00 • Paid via GCash on Sep 1, 2024</div></div>
+            <span class="status-badge status-paid">● Settled</span>
+          </div>
+          <div class="installment-row">
+            <div class="inst-info"><div class="inst-label">PART 2</div><div class="inst-title">Mid-term Downpayment (40%)</div><div style="font-size:11px;color:var(--text-dim);margin-top:3px">₱60,000.00 • Due: Oct 1, 2024</div></div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span class="status-badge status-pending">● Awaiting Payment</span>
+              <button class="btn-pay">Pay ₱60,000 →</button>
+            </div>
+          </div>
+          <div class="installment-row">
+            <div class="inst-info"><div class="inst-label">PART 3</div><div class="inst-title">Final Settlement (50%)</div><div style="font-size:11px;color:var(--text-dim);margin-top:3px">₱75,000.00 • Due after event</div></div>
+            <span class="status-badge status-pending" style="opacity:0.5">○ Locked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 9 — CUSTOMER REVIEWS -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 9 — Customer Reviews</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item active"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item"><span class="dn-icon">🚩</span> Action Flags</div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>Customer Reviews</h1><p>Share your experience and rate our services</p></div>
+      <!-- Write review form -->
+      <div class="panel" style="margin-bottom:24px">
+        <div class="panel-hdr"><div class="panel-title">Leave a Review</div></div>
+        <div class="panel-body" style="padding:20px">
+          <div style="display:flex;gap:8px;margin-bottom:16px"><span style="font-size:28px;cursor:pointer">★</span><span style="font-size:28px;cursor:pointer">★</span><span style="font-size:28px;cursor:pointer">★</span><span style="font-size:28px;cursor:pointer;color:var(--text-dim)">★</span><span style="font-size:28px;cursor:pointer;color:var(--text-dim)">★</span></div>
+          <textarea style="width:100%;box-sizing:border-box;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;resize:vertical;min-height:100px" placeholder="Write your review here..."></textarea>
+          <button class="btn-primary" style="margin-top:12px">Submit Review</button>
+        </div>
+      </div>
+      <!-- Past reviews -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+        <div class="panel" style="background:var(--bg2)"><div class="panel-body" style="padding:20px"><div style="font-size:18px;margin-bottom:8px">⭐⭐⭐⭐⭐</div><p style="font-size:13px;line-height:1.6;color:var(--text-mid)">"Absolutely phenomenal service. The food was hot, the staff were professional, and every detail was perfect."</p><div style="font-size:12px;font-weight:700;color:var(--gold);margin-top:12px">— Maria Santos, Wedding 2024</div></div></div>
+        <div class="panel" style="background:var(--bg2)"><div class="panel-body" style="padding:20px"><div style="font-size:18px;margin-bottom:8px">⭐⭐⭐⭐⭐</div><p style="font-size:13px;line-height:1.6;color:var(--text-mid)">"Equipment arrived on time, the setup team was professional. Our corporate event was completely stress-free."</p><div style="font-size:12px;font-weight:700;color:var(--gold);margin-top:12px">— Juan Dela Cruz, Corporate 2024</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 10 — ACTION FLAGS -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 10 — Action Flags</div>
+<div class="figma-screen">
+  <div class="sidebar-fixed">
+    <div class="dash-brand" style="padding:20px"><div class="dash-brand-icon">H</div><span>Halden''s</span></div>
+    <div class="dash-nav">
+      <div class="dash-nav-item"><span class="dn-icon">📋</span> My Reservations</div>
+      <div class="dash-nav-item"><span class="dn-icon">📅</span> Event Calendar</div>
+      <div class="dash-nav-item"><span class="dn-icon">🤝</span> Meetings</div>
+      <div class="dash-nav-item"><span class="dn-icon">👁️</span> Reservation Details</div>
+      <div class="dash-nav-item"><span class="dn-icon">💳</span> Payments</div>
+      <div class="dash-nav-item"><span class="dn-icon">⭐</span> Customer Reviews</div>
+      <div class="dash-nav-item active"><span class="dn-icon">🚩</span> Action Flags <span class="sidebar-badge" style="position:static;margin-left:8px">2</span></div>
+    </div>
+    <div class="dash-user" style="margin-top:auto;padding:16px"><div class="dash-user-ava">JD</div><div class="dash-user-info"><div class="dash-user-name">Juan Dela Cruz</div></div></div>
+    <div style="padding:0 16px 16px"><button class="btn-dash-logout">✕ Close &amp; Sign Out</button></div>
+  </div>
+  <div class="screen-content">
+    <div class="topbar"><button class="dash-notif-btn"><span class="dn-bell">🔔</span><span class="dn-badge">2</span></button><div style="display:flex;gap:12px"><button class="dash-chat-btn-top">💬 Chat Support</button><button class="dash-close">✕ Close Dashboard</button></div></div>
+    <div style="padding:30px">
+      <div class="dash-hdr"><h1>Action Items</h1><p>Pending tasks that require your attention</p></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="padding:20px;border-radius:16px;background:rgba(231,76,60,0.07);border:1px solid rgba(231,76,60,0.3);display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:700;color:#e74c3c;font-size:15px">🚩 Confirm Final Beverage List</div><div style="font-size:13px;color:var(--text-mid);margin-top:4px">Admin is requesting your approval on the final beverage selections before procurement is closed.</div><div style="font-size:11px;color:var(--text-dim);margin-top:6px">Posted: Oct 4, 2024 • Priority: High</div></div>
+          <button class="btn-primary" style="margin-left:20px;white-space:nowrap">Respond →</button>
+        </div>
+        <div style="padding:20px;border-radius:16px;background:rgba(241,196,15,0.07);border:1px solid rgba(241,196,15,0.3);display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:700;color:#e67e22;font-size:15px">🚩 Review Updated Seating Layout</div><div style="font-size:13px;color:var(--text-mid);margin-top:4px">A revised seating chart has been uploaded by your coordinator. Please review and confirm or request changes.</div><div style="font-size:11px;color:var(--text-dim);margin-top:6px">Posted: Oct 3, 2024 • Priority: Medium</div></div>
+          <button class="btn-outline" style="margin-left:20px;white-space:nowrap">View Layout →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- OVERLAY: Payment Modal -->
+<!-- ================================================================ -->
+<div class="figma-label">OVERLAY — Payment Modal</div>
+<div style="padding:40px;background:rgba(10,5,2,0.7);display:flex;align-items:center;justify-content:center;min-height:500px">
+  <div style="max-width:400px;width:100%;background:#fff;color:#000;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4)">
+    <div style="padding:32px;text-align:center">
+      <div style="font-size:14px;font-weight:800;color:#4f46e5;letter-spacing:1px;margin-bottom:20px">PAYMONGO</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">Complete Your Payment</div>
+      <div style="font-size:11px;color:#999;margin-bottom:4px">Mid-term Downpayment (Part 2 of 3)</div>
+      <div style="font-size:32px;font-weight:800;color:#000;margin-bottom:24px">₱60,000.00</div>
+      <div style="text-align:left;margin-bottom:20px">
+        <label style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;margin-bottom:8px;display:block">Select Payment Method</label>
+        <div style="border:2px solid #4f46e5;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;background:#f9fafb"><span style="font-size:20px">💳</span><div><div style="font-weight:600;font-size:14px">Online Payment</div><div style="font-size:11px;color:#999">PayMongo Gateway (Cards, GCash)</div></div></div>
+        <div style="border:1.5px solid #eee;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;background:#f9fafb"><span style="font-size:20px">💵</span><div><div style="font-weight:600;font-size:14px">Cash / Physical Payment</div><div style="font-size:11px;color:#999">Pay at the venue or office</div></div></div>
+      </div>
+      <button style="width:100%;padding:14px;background:#4f46e5;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer">Proceed to Pay Online</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- OVERLAY: Chat Support Panel -->
+<!-- ================================================================ -->
+<div class="figma-label">OVERLAY — Chat Support Panel</div>
+<div style="padding:40px;background:rgba(10,5,2,0.5);display:flex;justify-content:flex-end;min-height:600px">
+  <div style="width:380px;background:var(--bg);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column">
+    <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(196,154,60,0.05)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="background:var(--gold);color:#000;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">💬</div>
+        <div><div style="font-weight:700;font-size:15px;color:var(--gold)">Live Support</div><div style="font-size:11px;color:var(--text-dim)">Chat with Halden''s team</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;background:#2ecc71;border-radius:50%"></div><span style="font-size:11px;color:#2ecc71">Online</span></div>
+    </div>
+    <div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:14px;min-height:300px">
+      <div style="align-self:flex-start;background:var(--bg2);padding:10px 15px;border-radius:15px 15px 15px 0;font-size:13px;max-width:80%">Hello Juan! How can we help you today? 😊</div>
+      <div style="align-self:flex-end;background:var(--gold);color:#000;padding:10px 15px;border-radius:15px 15px 0 15px;font-size:13px;max-width:80%;font-weight:600">I have a question about the beverage list.</div>
+      <div style="align-self:flex-start;background:var(--bg2);padding:10px 15px;border-radius:15px 15px 15px 0;font-size:13px;max-width:80%">Of course! Our logistics team just updated the inventory. You can also check the Procurement Hub for the full list.</div>
+    </div>
+    <div style="padding:16px;border-top:1px solid var(--border);background:var(--bg3);display:flex;gap:10px">
+      <input type="text" placeholder="Type your message..." style="flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);font-size:13px"/>
+      <button style="background:var(--gold);border:none;color:#000;width:46px;height:46px;border-radius:12px;cursor:pointer;font-size:18px">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- OVERLAY: Notification Panel -->
+<!-- ================================================================ -->
+<div class="figma-label">OVERLAY — Notification Panel</div>
+<div style="padding:40px;background:rgba(10,5,2,0.5);display:flex;justify-content:flex-start;min-height:400px">
+  <div class="dash-notif-panel" style="position:relative;transform:none;width:360px">
+    <div class="dnp-hdr"><span>Notifications</span><button>✕</button></div>
+    <div class="dnp-body">
+      <div class="dnp-item unread"><div class="dnp-icon">🚩</div><div class="dnp-info"><div class="dnp-title">Action Required: Beverage List</div><div class="dnp-text">Please confirm your final beverage selection.</div><div class="dnp-time">2h ago</div></div></div>
+      <div class="dnp-item unread"><div class="dnp-icon">📅</div><div class="dnp-info"><div class="dnp-title">Meeting Tomorrow at 2:00 PM</div><div class="dnp-text">Contract Finalization — Room MTG-4F2A8B1C</div><div class="dnp-time">5h ago</div></div></div>
+      <div class="dnp-item"><div class="dnp-icon">✅</div><div class="dnp-info"><div class="dnp-title">Reservation Approved!</div><div class="dnp-text">Grand Victorian Wedding has been confirmed.</div><div class="dnp-time">Yesterday</div></div></div>
+      <div class="dnp-item"><div class="dnp-icon">🎉</div><div class="dnp-info"><div class="dnp-title">Welcome to Halden''s!</div><div class="dnp-text">Thank you for joining our elite catering community.</div><div class="dnp-time">3 days ago</div></div></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
