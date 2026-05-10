@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<title>Figma " Admin Dashboard (Flat Layout)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="admin.css"/>
+<style>
+*,*::before,*::after{animation:none!important;transition:none!important;backdrop-filter:none!important}
+.figma-label{background:var(--gold,#c49a3c);color:#000;font-size:11px;font-weight:800;padding:8px 20px;letter-spacing:2px;text-transform:uppercase;position:sticky;top:0;z-index:9999;border-bottom:3px solid rgba(0,0,0,0.2)}
+.figma-screen{display:flex;width:100%;min-height:100vh;border-bottom:8px solid rgba(196,154,60,0.3)}
+.adm-sidebar{width:240px;min-width:240px;background:var(--bg2,#1a1007);border-right:1px solid var(--border,rgba(255,255,255,0.08));display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+.adm-topnav{height:56px;background:var(--bg2,#1a1007);border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.adm-main{flex:1;display:flex;flex-direction:column;overflow:auto}
+.adm-content{padding:28px;flex:1}
+.sg-lbl{font-size:10px;color:var(--gold,#c49a3c);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:12px 16px 4px;opacity:0.7}
+.si{padding:9px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--text-mid,#b8a898)}
+.si.active{background:rgba(196,154,60,0.15);color:var(--gold,#c49a3c);font-weight:600;border-left:3px solid var(--gold,#c49a3c)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-box{background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:14px;padding:20px}
+.stat-val{font-size:28px;font-weight:800;color:var(--gold,#c49a3c);margin:8px 0 4px}
+.stat-lbl{font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.stat-sub{font-size:12px;color:var(--text-dim,#7a6a5a)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:12px 16px;text-align:left;font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;border-bottom:1px solid var(--border,rgba(255,255,255,0.08))}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.05))}
+.badge-conf{background:rgba(46,204,113,0.15);color:#2ecc71;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-pend{background:rgba(241,196,15,0.15);color:#f1c40f;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-rej{background:rgba(231,76,60,0.15);color:#e74c3c;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-proc{background:rgba(52,152,219,0.15);color:#3498db;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.log-row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border,rgba(255,255,255,0.05));align-items:flex-start}
+.log-dot{width:8px;height:8px;border-radius:50%;background:#2ecc71;margin-top:5px;flex-shrink:0}
+.proc-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.p-col{background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:14px;overflow:hidden}
+.p-col-hdr{padding:14px 16px;background:rgba(196,154,60,0.08);border-bottom:1px solid var(--border,rgba(255,255,255,0.08));font-size:13px;font-weight:700;color:var(--gold,#c49a3c)}
+.p-col-row{padding:10px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.05));font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.bk{background:rgba(46,204,113,0.15);color:#2ecc71;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.bt{background:rgba(241,196,15,0.15);color:#f1c40f;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.br{background:rgba(52,152,219,0.15);color:#3498db;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.eq-card{background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:14px;padding:16px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.panel-box{background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:14px;overflow:hidden;margin-bottom:20px}
+.panel-box-hdr{padding:14px 20px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.panel-box-body{padding:20px}
+</style>
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- SCREEN 15 " BUSINESS INSIGHTS -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 15 " Business Insights</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+  <div class="sg-lbl">Equipment Inventory</div><div class="si">" Equipment Assets</div><div class="si">" Availability &amp; Status</div><div class="si">... Routine Checks</div><div class="si">" Equipment Cycle</div><div class="si">" Equipment Resupply</div><div class="si"> Equipment Maintenance</div><div class="si"> Archived Disposed Records</div>
+  <div class="sg-lbl">User Handling</div><div class="si">' User Management</div>
+  <div class="sg-lbl">Analytics</div><div class="si active">" Business Insights</div>
+  <div class="sg-lbl">Items &amp; Packages</div><div class="si"> Manage Catalog</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><div><h1 style="margin:0;font-size:26px">Business Insights</h1><p style="margin:4px 0 0;color:var(--text-dim,#7a6a5a);font-size:13px">Revenue analytics, demand forecasting, and performance metrics</p></div><div style="display:flex;gap:8px"><select class="input-field" style="height:36px;font-size:12px"><option>This Year</option><option>Last 6 Months</option><option>This Month</option></select><button class="btn-outline" style="font-size:12px">Export Report</button></div></div>
+   <!-- KPI row -->
+   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px">
+    <div class="stat-box" style="border-left:4px solid var(--gold,#c49a3c)"><div class="stat-lbl">Total Revenue (YTD)</div><div class="stat-val">2.4M</div><div class="stat-sub">' 18% vs last year</div></div>
+    <div class="stat-box" style="border-left:4px solid #2ecc71"><div class="stat-lbl">Events Completed</div><div class="stat-val">64</div><div class="stat-sub">This year</div></div>
+    <div class="stat-box" style="border-left:4px solid #3498db"><div class="stat-lbl">Avg. Event Value</div><div class="stat-val">112K</div><div class="stat-sub">Per booking</div></div>
+    <div class="stat-box"><div class="stat-lbl">Client Retention</div><div class="stat-val">78%</div><div class="stat-sub">Repeat customers</div></div>
+    <div class="stat-box" style="border-left:4px solid #e74c3c"><div class="stat-lbl">Cancellation Rate</div><div class="stat-val">4.2%</div><div class="stat-sub">" 1.1% vs last year</div></div>
+   </div>
+   <div class="two-col" style="margin-bottom:20px">
+    <!-- Revenue chart placeholder -->
+    <div class="panel-box"><div class="panel-box-hdr"><div><div style="font-size:14px;font-weight:700">Monthly Revenue</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a)">Jan " May 2026</div></div></div>
+     <div class="panel-box-body">
+      <div style="height:220px;display:flex;align-items:flex-end;gap:12px;padding:0 10px;background:var(--bg3,#140e05);border-radius:10px;padding:16px">
+       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="flex:1;width:100%;background:rgba(196,154,60,0.3);border-radius:4px 4px 0 0;height:60%"></div><div style="font-size:10px;color:var(--text-dim,#7a6a5a)">Jan</div></div>
+       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="flex:1;width:100%;background:rgba(196,154,60,0.4);border-radius:4px 4px 0 0;height:75%"></div><div style="font-size:10px;color:var(--text-dim,#7a6a5a)">Feb</div></div>
+       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="flex:1;width:100%;background:rgba(196,154,60,0.5);border-radius:4px 4px 0 0;height:55%"></div><div style="font-size:10px;color:var(--text-dim,#7a6a5a)">Mar</div></div>
+       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="flex:1;width:100%;background:rgba(196,154,60,0.65);border-radius:4px 4px 0 0;height:85%"></div><div style="font-size:10px;color:var(--text-dim,#7a6a5a)">Apr</div></div>
+       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="flex:1;width:100%;background:var(--gold,#c49a3c);border-radius:4px 4px 0 0;height:100%"></div><div style="font-size:10px;color:var(--gold,#c49a3c);font-weight:700">May</div></div>
+      </div>
+     </div>
+    </div>
+    <!-- Top event types -->
+    <div class="panel-box"><div class="panel-box-hdr"><div><div style="font-size:14px;font-weight:700">Revenue by Event Type</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a)">YTD Breakdown</div></div></div>
+     <div class="panel-box-body" style="padding:0 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border,rgba(255,255,255,0.05))"><div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;border-radius:3px;background:var(--gold,#c49a3c)"></div><span style="font-size:13px;font-weight:600;color:var(--cream,#f5e6c8)">Weddings</span></div><div style="text-align:right"><div style="font-weight:700;color:var(--gold,#c49a3c)">1.1M</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">46% of total</div></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border,rgba(255,255,255,0.05))"><div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;border-radius:3px;background:#3498db"></div><span style="font-size:13px;font-weight:600;color:var(--cream,#f5e6c8)">Corporate Events</span></div><div style="text-align:right"><div style="font-weight:700;color:#3498db">640K</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">27% of total</div></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border,rgba(255,255,255,0.05))"><div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;border-radius:3px;background:#2ecc71"></div><span style="font-size:13px;font-weight:600;color:var(--cream,#f5e6c8)">Birthdays / Debuts</span></div><div style="text-align:right"><div style="font-weight:700;color:#2ecc71">430K</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">18% of total</div></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;border-radius:3px;background:#9b59b6"></div><span style="font-size:13px;font-weight:600;color:var(--cream,#f5e6c8)">Private Dinners</span></div><div style="text-align:right"><div style="font-weight:700;color:#9b59b6">230K</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">9% of total</div></div></div>
+     </div>
+    </div>
+   </div>
+   <!-- Seasonal demand forecast -->
+   <div class="panel-box"><div class="panel-box-hdr"><div><div style="font-size:14px;font-weight:700">Seasonal Demand Forecast (7-Year Weighted Average)</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a)">Historical booking demand prediction per month</div></div><span class="badge-conf">AI Powered</span></div>
+    <div class="panel-box-body">
+     <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:8px">
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">JAN</div><div style="height:60px;background:rgba(196,154,60,0.2);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">42%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">FEB</div><div style="height:90px;background:rgba(196,154,60,0.4);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">68%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">MAR</div><div style="height:50px;background:rgba(196,154,60,0.15);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">32%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">APR</div><div style="height:75px;background:rgba(196,154,60,0.3);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">58%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">MAY</div><div style="height:120px;background:rgba(46,204,113,0.4);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;border:2px solid #2ecc71"><span style="font-size:10px;font-weight:700;color:#2ecc71">92% "</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">JUN</div><div style="height:110px;background:rgba(46,204,113,0.3);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:#2ecc71">85%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">JUL</div><div style="height:45px;background:rgba(196,154,60,0.15);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">28%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">AUG</div><div style="height:40px;background:rgba(196,154,60,0.12);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">24%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">SEP</div><div style="height:65px;background:rgba(196,154,60,0.22);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">48%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">OCT</div><div style="height:95px;background:rgba(196,154,60,0.45);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">72%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">NOV</div><div style="height:85px;background:rgba(196,154,60,0.38);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:var(--gold,#c49a3c)">65%</span></div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-bottom:6px">DEC</div><div style="height:118px;background:rgba(46,204,113,0.35);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px"><span style="font-size:10px;font-weight:700;color:#2ecc71">90%</span></div></div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN 16 " MANAGE CATALOG (Items & Packages) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 16 " Manage Catalog (Items &amp; Packages)</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+  <div class="sg-lbl">Equipment Inventory</div><div class="si">" Equipment Assets</div><div class="si">" Availability &amp; Status</div><div class="si">... Routine Checks</div><div class="si">" Equipment Cycle</div><div class="si">" Equipment Resupply</div><div class="si"> Equipment Maintenance</div><div class="si"> Archived Disposed Records</div>
+  <div class="sg-lbl">User Handling</div><div class="si">' User Management</div><div class="sg-lbl">Analytics</div><div class="si">" Business Insights</div>
+  <div class="sg-lbl">Items &amp; Packages</div><div class="si active"> Manage Catalog</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><div><h1 style="margin:0;font-size:26px">Manage Catalog</h1><p style="margin:4px 0 0;color:var(--text-dim,#7a6a5a);font-size:13px">Manage all items, packages, and pricing</p></div><div style="display:flex;gap:8px"><button class="btn-primary">+ Add Item</button><button class="btn-outline">+ Add Package</button></div></div>
+   <!-- Tab bar -->
+   <div class="panel-box" style="margin-bottom:20px"><div class="panel-box-body" style="padding:10px"><div class="tab-bar"><button class="tab-btn active">All Items</button><button class="tab-btn"> Catering</button><button class="tab-btn"> Desserts</button><button class="tab-btn"> Decoration</button><button class="tab-btn">' Equipment</button><button class="tab-btn"> Entertainment</button><button class="tab-btn">" Packages</button></div></div></div>
+   <!-- Items grid -->
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+    <div class="panel-box" style="margin-bottom:0"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,rgba(196,154,60,0.2),rgba(196,154,60,0.05));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px">-</div><div style="padding:0 4px 4px"><div style="font-weight:700;font-size:14px;color:var(--cream,#f5e6c8)">Lechon Baboy (Whole)</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a);margin-top:4px">Category: Catering  Min 50 pax</div><div style="font-size:16px;font-weight:800;color:var(--gold,#c49a3c);margin-top:8px">8,500 / pc</div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn-outline" style="font-size:11px;flex:1">Edit</button><button class="btn-reject" style="font-size:11px">Delete</button></div></div></div>
+    <div class="panel-box" style="margin-bottom:0"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,rgba(52,152,219,0.2),rgba(52,152,219,0.05));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px">'</div><div style="padding:0 4px 4px"><div style="font-weight:700;font-size:14px;color:var(--cream,#f5e6c8)">Chivari Chair (Gold)</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a);margin-top:4px">Category: Equipment  Per piece</div><div style="font-size:16px;font-weight:800;color:var(--gold,#c49a3c);margin-top:8px">150 / pc</div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn-outline" style="font-size:11px;flex:1">Edit</button><button class="btn-reject" style="font-size:11px">Delete</button></div></div></div>
+    <div class="panel-box" style="margin-bottom:0"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,rgba(155,89,182,0.2),rgba(155,89,182,0.05));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px">'</div><div style="padding:0 4px 4px"><div style="font-weight:700;font-size:14px;color:var(--cream,#f5e6c8)">Silk Floral Arch</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a);margin-top:4px">Category: Decoration  Per setup</div><div style="font-size:16px;font-weight:800;color:var(--gold,#c49a3c);margin-top:8px">12,000 / setup</div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn-outline" style="font-size:11px;flex:1">Edit</button><button class="btn-reject" style="font-size:11px">Delete</button></div></div></div>
+   </div>
+   <!-- Packages section -->
+   <div class="panel-box"><div class="panel-box-hdr"><div><div style="font-size:14px;font-weight:700">Event Packages</div><div style="font-size:12px;color:var(--text-dim,#7a6a5a)">Bundled packages for each occasion type</div></div><button class="btn-primary" style="font-size:12px">+ New Package</button></div>
+    <div class="panel-box-body" style="padding:0;overflow-x:auto">
+     <table class="tbl">
+      <thead><tr><th>Package Name</th><th>Occasion</th><th>Inclusions</th><th>Min Pax</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+       <tr><td style="font-weight:700;color:var(--gold,#c49a3c)">Royal Wedding Package</td><td>Wedding</td><td>12 dishes, chairs, decor, coordinator</td><td>100</td><td style="font-weight:800;color:var(--gold,#c49a3c)">150,000</td><td><span class="badge-conf">Active</span></td><td style="display:flex;gap:6px"><button class="btn-view" style="font-size:11px">Edit</button></td></tr>
+       <tr><td style="font-weight:700;color:var(--gold,#c49a3c)">Corporate Standard</td><td>Corporate</td><td>8 dishes, AV setup, tables</td><td>50</td><td style="font-weight:800;color:var(--gold,#c49a3c)">85,000</td><td><span class="badge-conf">Active</span></td><td style="display:flex;gap:6px"><button class="btn-view" style="font-size:11px">Edit</button></td></tr>
+       <tr><td style="font-weight:700;color:var(--gold,#c49a3c)">Birthday Wonderland</td><td>Birthday</td><td>10 dishes, themed decor, entertainment</td><td>30</td><td style="font-weight:800;color:var(--gold,#c49a3c)">55,000</td><td><span class="badge-conf">Active</span></td><td style="display:flex;gap:6px"><button class="btn-view" style="font-size:11px">Edit</button></td></tr>
+       <tr><td style="font-weight:700;color:var(--text-dim,#7a6a5a)">Intimate Private Dinner</td><td>Private</td><td>6 dishes, table service, wine</td><td>10</td><td style="font-weight:800;color:var(--text-dim,#7a6a5a)">35,000</td><td><span class="badge-pend">Draft</span></td><td style="display:flex;gap:6px"><button class="btn-view" style="font-size:11px">Edit</button></td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- SCREEN 3-REVISED " RESERVATION DETAILS: Main Dashboard (with Map + Contract) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 3-R " Reservation Details: Main Dashboard (Contract + Map)</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div><div style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px;font-weight:700;display:inline-block">Admin</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+  <div class="sg-lbl">Equipment Inventory</div><div class="si">" Equipment Assets</div><div class="si">" Availability &amp; Status</div><div class="si">... Routine Checks</div><div class="si">" Equipment Cycle</div><div class="si">" Equipment Resupply</div><div class="si"> Equipment Maintenance</div><div class="si"> Archived Disposed Records</div>
+  <div class="sg-lbl">User Handling</div><div class="si">' User Management</div><div class="sg-lbl">Analytics</div><div class="si">" Business Insights</div><div class="sg-lbl">Items &amp; Packages</div><div class="si"> Manage Catalog</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;align-items:center;gap:12px"><button class="btn-primary" style="font-size:12px;padding:6px 12px">' Support</button><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+   <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+    <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">#RES-98214 " Grand Victorian Wedding " May 5, 2026</div>
+    <span class="badge-conf">- Confirmed</span><span style="background:rgba(196,154,60,0.15);color:var(--gold,#c49a3c);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700">Custom Mod: Royal Wedding Package</span>
+   </div>
+   <!-- Sub-tab bar -->
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn active">Main Dashboard</button><button class="tab-btn">Logistics Timeline</button><button class="tab-btn">Procurement Hub</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn">Design</button><button class="tab-btn">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Personnel</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+   <!-- Package name header + action buttons -->
+   <div style="padding:14px 18px;background:rgba(196,154,60,0.07);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div style="font-size:15px;font-weight:700;color:var(--gold,#c49a3c)">#RES-98214 " Custom Mod: Royal Wedding Package</div>
+    <div style="display:flex;gap:8px"><button class="btn-outline" style="background:var(--gold,#c49a3c);color:#000;border:none;font-weight:700;font-size:12px">Modify Reservation Details</button><button class="btn-outline" style="font-size:12px">Update Ops Status</button></div>
+   </div>
+   <!-- TWO-COL: Contract viewer + Map -->
+   <div class="two-col" style="margin-bottom:16px">
+    <!-- Contract Document -->
+    <div class="panel-box" style="margin-bottom:0">
+     <div class="panel-box-hdr" style="padding:10px 16px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px">"</span><div style="font-size:13px;font-weight:700;color:var(--cream,#f5e6c8)">Signed Contract</div></div>
+      <button class="btn-primary" style="font-size:11px;padding:5px 12px">View</button>
+     </div>
+     <div class="panel-box-body" style="padding:0">
+      <div style="background:#1a1a1a;min-height:340px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:0 0 10px 10px">
+       <!-- Simulated contract document pages -->
+       <div style="width:85%;max-width:380px;background:#fff;border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,0.6);padding:24px;position:relative;transform:rotate(-1deg)">
+        <div style="text-align:center;margin-bottom:14px"><div style="font-size:14px;font-weight:900;color:#1a1a1a;letter-spacing:2px">HALDEN''S CATERING SERVICES</div><div style="font-size:10px;color:#666;margin-top:2px">Official Service Contract</div><hr style="border:1px solid #ddd;margin:10px 0"/></div>
+        <div style="font-size:9px;color:#333;line-height:1.6;margin-bottom:8px"><strong>CLIENT:</strong> Juan Dela Cruz &nbsp;&nbsp; <strong>DATE:</strong> May 5, 2026</div>
+        <div style="font-size:9px;color:#333;line-height:1.6;margin-bottom:8px"><strong>EVENT:</strong> Grand Victorian Wedding &nbsp;&nbsp; <strong>PAX:</strong> 150</div>
+        <div style="font-size:9px;color:#333;line-height:1.6;margin-bottom:8px"><strong>VENUE:</strong> The Grand Ballroom, Makati City</div>
+        <div style="font-size:8px;color:#555;line-height:1.5;margin-bottom:10px">This Service Contract ("Agreement") is entered into by and between Halden's Catering Services ("Service Provider") and the Client named herein. The Service Provider agrees to provide catering and event services as specified in the attached package inclusions. Payment terms, cancellation policy, and liability clauses are bound by this contract...</div>
+        <div style="display:flex;justify-content:space-between;margin-top:16px;border-top:1px solid #ddd;padding-top:10px">
+         <div><div style="font-size:8px;color:#999;margin-bottom:16px">Client Signature</div><div style="width:100px;border-bottom:1px solid #333"></div></div>
+         <div><div style="font-size:8px;color:#999;margin-bottom:16px">Admin Signature</div><div style="width:100px;border-bottom:1px solid #333"></div></div>
+        </div>
+        <div style="position:absolute;top:50%;right:10px;transform:translateY(-50%) rotate(20deg);border:3px solid rgba(46,204,113,0.5);color:rgba(46,204,113,0.6);font-size:22px;font-weight:900;padding:4px 10px;border-radius:4px;letter-spacing:2px">SIGNED</div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <!-- Map -->
+    <div class="panel-box" style="margin-bottom:0">
+     <div class="panel-box-hdr" style="padding:10px 16px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px">"</span><div style="font-size:13px;font-weight:700;color:var(--cream,#f5e6c8)">GPS Venue Location</div></div>
+      <span class="badge-conf" style="font-size:10px">- Live Map</span>
+     </div>
+     <div class="panel-box-body" style="padding:0">
+      <div style="background:#2a3a2a;min-height:340px;position:relative;overflow:hidden;border-radius:0 0 10px 10px">
+       <!-- Map grid lines (fake map bg) -->
+       <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.04) 0,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,rgba(255,255,255,0.04) 0,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 40px)"></div>
+       <!-- Roads sim -->
+       <div style="position:absolute;top:40%;left:0;right:0;height:12px;background:rgba(255,255,255,0.12);transform:rotate(-3deg)"></div>
+       <div style="position:absolute;top:0;bottom:0;left:35%;width:10px;background:rgba(255,255,255,0.1)"></div>
+       <div style="position:absolute;top:0;bottom:0;left:65%;width:8px;background:rgba(255,255,255,0.08)"></div>
+       <div style="position:absolute;top:60%;left:0;right:0;height:8px;background:rgba(255,255,255,0.07)"></div>
+       <!-- Map marker -->
+       <div style="position:absolute;top:38%;left:48%;transform:translate(-50%,-50%)">
+        <div style="width:20px;height:20px;background:#e74c3c;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 12px rgba(231,76,60,0.6)"></div>
+        <!-- Popup -->
+        <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;color:#000;border-radius:6px;padding:8px 12px;min-width:220px;box-shadow:0 4px 16px rgba(0,0,0,0.4);font-size:10px;line-height:1.5">
+         <div style="font-weight:700;font-size:11px;margin-bottom:4px">The Grand Ballroom</div>
+         Makati City, Metro Manila, 1200 Philippines<br/>
+         Barangay 70, Ayala Ave, Makati, 1226
+         <div style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:#fff;clip-path:polygon(0 0,100% 0,50% 100%)"></div>
+        </div>
+       </div>
+       <!-- Zoom controls -->
+       <div style="position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:1px"><button style="width:26px;height:26px;background:rgba(255,255,255,0.9);border:none;border-radius:4px 4px 0 0;font-size:16px;cursor:pointer;color:#333;font-weight:700">+</button><button style="width:26px;height:26px;background:rgba(255,255,255,0.9);border:none;border-radius:0 0 4px 4px;font-size:16px;cursor:pointer;color:#333;font-weight:700">'</button></div>
+       <!-- Attribution -->
+       <div style="position:absolute;bottom:6px;right:8px;font-size:9px;color:rgba(255,255,255,0.5)">Leaflet |  OpenStreetMap</div>
+       <!-- Address bar below -->
+       <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);padding:8px 12px;font-size:10px;color:rgba(255,255,255,0.7)">The Grand Ballroom, Makati City, Metro Manila, Philippines &nbsp;&nbsp; <span style="color:var(--gold,#c49a3c)">Calculating...</span></div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- THREE-COL: Event Profile / Venue & Timing / Financial Snapshot -->
+   <div class="three-col">
+    <div class="panel-box" style="margin-bottom:0">
+     <div class="panel-box-hdr" style="padding:10px 16px;font-size:13px">" Event Profile</div>
+     <div class="panel-box-body" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Client</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">Juan Dela Cruz</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Contact</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">+63 917 123 4567</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Event Type</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">Wedding</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Guest Count</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">150 pax (10 VIP)</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Package</span><span style="font-weight:600;color:var(--gold,#c49a3c)">Royal Wedding</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Status</span><span class="badge-conf" style="font-size:10px">Confirmed</span></div>
+     </div>
+    </div>
+    <div class="panel-box" style="margin-bottom:0">
+     <div class="panel-box-hdr" style="padding:10px 16px;font-size:13px">" Venue &amp; Timing</div>
+     <div class="panel-box-body" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Venue</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">The Grand Ballroom</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Address</span><span style="font-weight:600;color:var(--cream,#f5e6c8);text-align:right;max-width:160px">Makati City, Metro Manila</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Event Date</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">May 5, 2026</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Start Time</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">8:00 AM</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">End Time</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">10:00 PM</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Setup</span><span style="font-weight:600;color:var(--cream,#f5e6c8)">May 4, 6:00 AM</span></div>
+     </div>
+    </div>
+    <div class="panel-box" style="margin-bottom:0">
+     <div class="panel-box-hdr" style="padding:10px 16px;font-size:13px">' Financial Snapshot</div>
+     <div class="panel-box-body" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Contract Total</span><span style="font-weight:800;color:var(--gold,#c49a3c)">150,000</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Total Paid</span><span style="font-weight:700;color:#2ecc71">15,000</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Balance Due</span><span style="font-weight:700;color:#e74c3c">135,000</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Next Due</span><span style="font-weight:600;color:#f1c40f">60,000 (May 15)</span></div>
+      <div style="height:1px;background:var(--border,rgba(255,255,255,0.08));margin:4px 0"></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-dim,#7a6a5a)">Payment Status</span><span style="background:rgba(241,196,15,0.15);color:#f1c40f;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">Partial</span></div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<!-- ================================================================ -->
+<!-- SCREEN 4-REVISED " RESERVATION DETAILS: Logistics Timeline (With Calendar & Strategy) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 4-R " Reservation Details: Logistics Timeline (Calendar &amp; Strategy)</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+   <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+    <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">#RES-98214 " Grand Victorian Wedding " May 5, 2026</div>
+   </div>
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Main Dashboard</button><button class="tab-btn active">Logistics Timeline</button><button class="tab-btn">Procurement Hub</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn">Design</button><button class="tab-btn">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Personnel</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+
+   <div style="padding:16px;background:#2a1b0a;border:1px solid var(--gold,#c49a3c);border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+     <div style="font-size:16px;font-weight:700;color:var(--cream,#f5e6c8)">View Reservation Timeline</div>
+     <div style="font-size:12px;color:var(--text-dim,#7a6a5a)">Calendar coverage, per-day activities, and payment milestones</div>
+    </div>
+    <button class="btn-outline" style="background:var(--gold,#c49a3c);color:#000;border:none;font-weight:700">Modify Timeline</button>
+   </div>
+
+   <div style="font-size:12px;color:var(--cream,#f5e6c8);margin-bottom:16px">Coverage: 2026-05-01 to 2026-05-15. Assign tasks per day and monitor payment milestones.</div>
+
+   <!-- Stats row -->
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:16px;text-align:center">
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">Countdown</div>
+     <div style="font-size:24px;font-weight:800;color:#2ecc71;margin-top:6px">10 Days Left</div>
+    </div>
+    <div style="background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.3);border-radius:8px;padding:16px;text-align:center">
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">Today's Load</div>
+     <div style="font-size:24px;font-weight:800;color:var(--gold,#c49a3c);margin-top:6px">5 Pending</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a)">out of 5 scheduled today</div>
+    </div>
+    <div style="background:rgba(231,76,60,0.05);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:16px;text-align:center">
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">Delayed Activities</div>
+     <div style="font-size:24px;font-weight:800;color:#e74c3c;margin-top:6px">15</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a)">past due deadline</div>
+    </div>
+   </div>
+
+   <!-- Phases row -->
+   <div style="display:flex;gap:10px;overflow-x:auto;margin-bottom:20px;padding-bottom:10px">
+    <div style="min-width:200px;background:#142030;border:1px solid #3498db;border-radius:8px;padding:12px">
+     <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:#3498db">Reservation Detailing...</span><span style="background:rgba(52,152,219,0.2);color:#3498db;font-size:9px;padding:2px 6px;border-radius:10px">UPCOMING</span></div>
+     <div style="font-size:10px;color:rgba(255,255,255,0.5)">2026-05-03 - 2026-05-06</div><div style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:8px">0/20 Activities (0%)</div>
+    </div>
+    <div style="min-width:200px;background:#142030;border:1px solid #3498db;border-radius:8px;padding:12px">
+     <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:#3498db">Resource Planning</span><span style="background:rgba(52,152,219,0.2);color:#3498db;font-size:9px;padding:2px 6px;border-radius:10px">UPCOMING</span></div>
+     <div style="font-size:10px;color:rgba(255,255,255,0.5)">2026-05-06 - 2026-05-09</div><div style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:8px">0/6 Activities (0%)</div>
+    </div>
+    <div style="min-width:200px;background:#2a1b0a;border:1px solid #f39c12;border-radius:8px;padding:12px">
+     <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:#f39c12">Payment Fulfillment</span><span style="background:rgba(243,156,18,0.2);color:#f39c12;font-size:9px;padding:2px 6px;border-radius:10px">UPCOMING</span></div>
+     <div style="font-size:10px;color:rgba(255,255,255,0.5)">2026-05-08 - 2026-05-09</div><div style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:8px">0/4 Activities (0%)</div>
+    </div>
+    <div style="min-width:200px;background:#22152a;border:1px solid #9b59b6;border-radius:8px;padding:12px">
+     <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:#9b59b6">Procurement &amp; Exte...</span><span style="background:rgba(155,89,182,0.2);color:#9b59b6;font-size:9px;padding:2px 6px;border-radius:10px">UPCOMING</span></div>
+     <div style="font-size:10px;color:rgba(255,255,255,0.5)">2026-05-10 - 2026-05-12</div><div style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:8px">0/5 Activities (0%)</div>
+    </div>
+    <div style="min-width:200px;background:#2a250a;border:1px solid #f1c40f;border-radius:8px;padding:12px">
+     <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:#f1c40f">Finalization</span><span style="background:rgba(241,196,15,0.2);color:#f1c40f;font-size:9px;padding:2px 6px;border-radius:10px">UPCOMING</span></div>
+     <div style="font-size:10px;color:rgba(255,255,255,0.5)">2026-05-13 - 2026-05-13</div><div style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:8px">0/8 Activities (0%)</div>
+    </div>
+   </div>
+
+   <!-- Full Calendar Mockup -->
+   <div class="panel-box" style="margin-bottom:24px">
+    <div class="panel-box-hdr" style="padding:10px 16px;display:flex;justify-content:space-between">
+     <div style="display:flex;gap:4px"><button class="btn-outline" style="padding:4px 8px;font-size:14px">&lt;</button><button class="btn-outline" style="padding:4px 8px;font-size:14px">&gt;</button><button class="btn-outline" style="padding:4px 12px;font-size:12px">Today</button></div>
+     <div style="font-size:16px;font-weight:700">May 2026</div>
+     <div style="display:flex"><button class="btn-outline" style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px 0 0 4px;font-size:12px">Month</button><button class="btn-outline" style="border-radius:0 4px 4px 0;font-size:12px">List</button></div>
+    </div>
+    <div class="panel-box-body" style="padding:0">
+     <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+      <thead>
+       <tr style="border-bottom:1px solid var(--border,rgba(255,255,255,0.08))">
+        <th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Sun</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Mon</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Tue</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Wed</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Thu</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Fri</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Sat</th>
+       </tr>
+      </thead>
+      <tbody>
+       <!-- Row 1 -->
+       <tr style="height:80px">
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:rgba(255,255,255,0.3)">26</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:rgba(255,255,255,0.3)">27</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:rgba(255,255,255,0.3)">28</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:rgba(255,255,255,0.3)">29</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:rgba(255,255,255,0.3)">30</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Venue assessment</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Guest list finalization</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">1</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Equipment inventory checking</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Seating layout planning</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">2</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Rental identification</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Additional client requirements</div></td>
+       </tr>
+       <!-- Row 2 -->
+       <tr style="height:120px">
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">3</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Reservation Detailing...</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Design discussion</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Follow-up meetings</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Venue assessment</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Food tasting</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Additional client reqs</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">4</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Food tasting</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Equipment inv checking</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Personnel assessment</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Follow-up meetings</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.05);border-top:2px solid var(--gold,#c49a3c)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--gold,#c49a3c);font-weight:700">5</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Personnel assessment</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final equipment list</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Grouping of staff</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Rental identification</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Guest list finalization</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">6</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Resource Planning</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Rental planning</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Design discussion</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Seating layout planning</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final equipment list</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Grouping of staff</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">7</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Staff allocation</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Rental planning</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">8</div><div style="background:#f39c12;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Down payment completion</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Staff allocation</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">9</div><div style="background:#f39c12;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Payment Fulfillment</div><div style="background:#f39c12;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Payment verification</div><div style="background:#f39c12;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Down payment completion</div><div style="background:#f39c12;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Payment verification</div></td>
+       </tr>
+       <!-- Row 3 -->
+       <tr style="height:120px">
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">10</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Procurement &amp; External...</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Ingredient procurement</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Ingredient procurement</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">11</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Rental confirmation</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Rental confirmation</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">12</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Supplier coordination</div><div style="background:#9b59b6;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Supplier coordination</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">13</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Finalization</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Staff</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Rentals</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Equipment</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Event design</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final briefing of staff</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Rentals</div><div style="background:#f1c40f;color:#000;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final confirmation of Equipment</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">14</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Pre-Preparation (Pre-Prep)</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Food pre-preparation</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Equipment packing</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Task assignment per staff</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Load planning</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Final briefing</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Food pre-preparation</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px">Equipment packing</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">15</div><div style="background:#e67e22;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;font-weight:700">Event Day</div></td>
+        <td style="border:1px solid var(--border,rgba(255,255,255,0.08));vertical-align:top;padding:4px;background:rgba(255,255,255,0.02)"><div style="font-size:10px;text-align:right;margin-bottom:4px;color:var(--cream,#f5e6c8);font-weight:700">16</div></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+
+   <!-- EXECUTION DAY STRATEGY SECTION (Moved from floating modal) -->
+   <div class="panel-box" style="margin-bottom:24px">
+    <div class="panel-box-hdr" style="display:flex;justify-content:space-between;align-items:center">
+     <div style="font-size:16px;font-weight:700">Execution Day Strategy</div>
+    </div>
+    <div class="panel-box-body" style="padding:16px;background:var(--bg2,#1a1007)">
+     <div style="display:flex;gap:16px">
+      
+      <!-- Left col: Staff & Flexibility -->
+      <div style="width:220px;display:flex;flex-direction:column;gap:16px">
+       <div style="background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);margin-bottom:10px;text-transform:uppercase">Assigned Staff</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>Elias</span><span style="color:#666">Kitchen</span></div>
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>staff</span><span style="color:#666">Floor</span></div>
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>comedia</span><span style="color:#666">Floor</span></div>
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>martin</span><span style="color:#666">Floor</span></div>
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>essy</span><span style="color:#666">Floor</span></div>
+         <div style="display:flex;justify-content:space-between;background:#fff;color:#000;padding:6px 10px;border-radius:4px;font-size:11px;font-weight:600"><span>jake</span><span style="color:#666">Floor</span></div>
+        </div>
+        <button class="btn-outline" style="width:100%;margin-top:12px;background:var(--gold,#c49a3c);color:#000;border:none;font-weight:700;font-size:11px">Auto-Distribute Staff to Phases</button>
+       </div>
+
+       <div style="background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);margin-bottom:10px;text-transform:uppercase">Event Flexibility</div>
+        <select class="input-field" style="width:100%;height:32px;font-size:11px;margin-bottom:10px"><option>Flexible (Extension Allowed)</option><option>Strict</option></select>
+        <button class="btn-primary" style="width:100%;background:#0b5c2a;color:#fff;border:none;font-weight:700;font-size:11px">Save Execution Plan</button>
+       </div>
+      </div>
+
+      <!-- Right col: Timeline & Phases -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:16px">
+       
+       <!-- 24H Timeline View -->
+       <div style="background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+         <span style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase">Timeline Periods (24-Hour View)</span>
+         <span style="font-size:10px;color:var(--text-dim,#7a6a5a)">Time Range: 05:00 - 17:00</span>
+        </div>
+        <!-- Timeline Bar -->
+        <div style="height:14px;background:#2a2a2a;border-radius:10px;display:flex;overflow:hidden;position:relative;margin-bottom:16px">
+         <div style="width:15%;border-right:1px solid #000"></div> <!-- 05:00-08:00 (Empty/Setup) -->
+         <div style="width:5%;background:#2ecc71;border-right:1px solid #000"></div> <!-- 08:00-09:00 -->
+         <div style="width:5%;background:#f1c40f;border-right:1px solid #000"></div> <!-- 09:00-10:00 -->
+         <div style="width:15%;background:#3498db;border-right:1px solid #000"></div> <!-- 10:00-13:00 -->
+         <div style="width:10%;background:#e74c3c;border-right:1px solid #000"></div> <!-- 13:00-15:00 -->
+         <div style="width:10%;background:#9b59b6;border-right:1px solid #000"></div> <!-- 15:00-17:00 -->
+         <div style="flex:1"></div>
+        </div>
+
+        <!-- Phase Cards -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+         <div style="background:#fff;border-radius:6px;padding:10px;min-width:140px;border:2px solid var(--gold,#c49a3c)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;font-weight:800;color:#000">DEPARTURE</span><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px">UPCOMING</span></div>
+          <div style="font-size:10px;color:#666;margin-bottom:8px">05:00 - 06:00</div>
+          <div style="font-size:10px;color:#333">2/2 Activities (100%)</div>
+         </div>
+         <div style="background:#fff;border-radius:6px;padding:10px;min-width:140px;border:1px solid #ddd">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;font-weight:800;color:#000">DEPLOYMENT</span><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px">UPCOMING</span></div>
+          <div style="font-size:10px;color:#666;margin-bottom:8px">06:00 - 08:00</div>
+          <div style="font-size:10px;color:#333">4/4 Activities (100%)</div>
+         </div>
+         <div style="background:#fff;border-radius:6px;padding:10px;min-width:140px;border:2px solid #2ecc71">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;font-weight:800;color:#000">EXECUTION</span><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px">UPCOMING</span></div>
+          <div style="font-size:10px;color:#666;margin-bottom:8px">08:00 - 15:00</div>
+          <div style="font-size:10px;color:#333">3/3 Activities (100%)</div>
+         </div>
+         <div style="background:#fff;border-radius:6px;padding:10px;min-width:140px;border:2px solid #e74c3c">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;font-weight:800;color:#000">BASHOUT</span><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px">UPCOMING</span></div>
+          <div style="font-size:10px;color:#666;margin-bottom:8px">15:00 - 16:00</div>
+          <div style="font-size:10px;color:#333">2/2 Activities (100%)</div>
+         </div>
+         <div style="background:#fff;border-radius:6px;padding:10px;min-width:140px;border:1px solid #ddd">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;font-weight:800;color:#000">RESTORAGE</span><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px">UPCOMING</span></div>
+          <div style="font-size:10px;color:#666;margin-bottom:8px">16:00 - 17:00</div>
+          <div style="font-size:10px;color:#333">2/2 Activities (100%)</div>
+         </div>
+        </div>
+       </div>
+
+       <!-- Current Phase Details -->
+       <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:16px;color:#333">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+         <div>
+          <div style="font-size:10px;font-weight:700;color:#887455;text-transform:uppercase;margin-bottom:2px">Current Phase Details</div>
+          <div style="font-size:18px;font-weight:800;color:#000;text-transform:uppercase">DEPARTURE</div>
+         </div>
+         <div style="display:flex;gap:12px">
+          <div>
+           <div style="font-size:9px;font-weight:700;color:#887455;text-transform:uppercase">Start</div>
+           <div style="background:rgba(196,154,60,0.15);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px">05:00 AM <span style="font-size:14px"></span></div>
+          </div>
+          <div>
+           <div style="font-size:9px;font-weight:700;color:#887455;text-transform:uppercase">End</div>
+           <div style="background:rgba(196,154,60,0.15);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px">06:00 AM <span style="font-size:14px"></span></div>
+          </div>
+         </div>
+        </div>
+
+        <div style="font-size:10px;font-weight:700;color:#887455;text-transform:uppercase;margin-bottom:10px">Activities &amp; Dedicated Staffing</div>
+        
+        <div style="display:flex;flex-direction:column;gap:12px">
+         <!-- Activity 1 -->
+         <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+           <div style="width:6px;height:6px;background:var(--gold,#c49a3c);border-radius:50%"></div>
+           <div style="font-size:13px;font-weight:700;color:#000;flex:1">Count equipment</div>
+           <div style="color:#e74c3c;font-size:16px;cursor:pointer">-</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding-left:14px">
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" Elias</button>
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ staff</button>
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ comedia</button>
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ martin</button>
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ essy</button>
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ jake</button>
+          </div>
+          <hr style="border:none;border-top:1px solid #e0d0b0;margin-top:12px"/>
+         </div>
+         <!-- Activity 2 -->
+         <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+           <div style="width:6px;height:6px;background:var(--gold,#c49a3c);border-radius:50%"></div>
+           <div style="font-size:13px;font-weight:700;color:#000;flex:1">Load transport</div>
+           <div style="color:#e74c3c;font-size:16px;cursor:pointer">-</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding-left:14px">
+           <button style="background:#fff;border:1px solid #ccc;color:#333;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600">+ Elias</button>
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" staff</button>
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" comedia</button>
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" martin</button>
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" essy</button>
+           <button style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700">" jake</button>
+          </div>
+          <hr style="border:none;border-top:1px solid #e0d0b0;margin-top:12px"/>
+         </div>
+         
+         <button style="background:transparent;border:1px dashed #c49a3c;color:#887455;padding:10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;margin-top:4px">+ Add New Activity to Departure</button>
+        </div>
+
+       </div>
+
+      </div>
+     </div>
+    </div>
+   </div> <!-- End Execution Day Strategy -->
+
+  </div>
+ </div>
+</div>
+<!-- ================================================================ -->
+<!-- SCREEN 5-REVISED A " RESERVATION DETAILS: Procurement (Dishes & Ingredients) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 5-RA " Reservation Details: Procurement (Dishes &amp; Ingredients UI)</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+   <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+    <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">#RES-98214 " Grand Victorian Wedding " May 5, 2026</div>
+   </div>
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Main Dashboard</button><button class="tab-btn">Logistics Timeline</button><button class="tab-btn active">Procurement Hub</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn">Design</button><button class="tab-btn">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Personnel</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+
+   <div style="padding:16px;background:#1a1007;border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+     <div style="font-size:16px;font-weight:700;color:var(--cream,#f5e6c8)">Dishes &amp; Ingredients</div>
+     <div style="font-size:12px;color:var(--text-dim,#7a6a5a)">#RES-98214 " Grand Victorian Wedding (2026-05-05)  150 pax</div>
+    </div>
+    <div style="display:flex;gap:8px"><button class="btn-outline" style="font-size:12px">Export PDF</button><button class="btn-outline" style="font-size:12px;border-color:rgba(255,255,255,0.2)">- Close</button></div>
+   </div>
+
+   <!-- Stats row -->
+   <div style="display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="flex:2;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">46,625</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Est. Total Cost</div>
+    </div>
+    <div style="flex:2;background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:#2ecc71">PO</div>
+     <div style="font-size:11px;color:#2ecc71;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Finalized Cost</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">6</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Suppliers</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">9</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Shopping Items</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">12</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Dishes</div>
+    </div>
+   </div>
+
+   <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));padding-bottom:8px">ALL DISHES " FULL INGREDIENT BREAKDOWN</div>
+
+   <!-- Dishes grid -->
+   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:32px">
+    <!-- Dish 1 -->
+    <div style="background:#fff;color:#000;border-radius:8px;padding:12px;border:1px solid #ddd">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-weight:800;font-size:12px;max-width:70%">Pork Belly Lechon</div><div style="font-weight:700;font-size:11px;color:var(--gold,#c49a3c)">6,625</div></div>
+     <div style="font-size:9px;color:#666;margin-bottom:12px">For 150 pax</div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>COST</span><span>SUPPLIER</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Whole Pork Belly</span><span>12.50 kg</span><span style="font-weight:700">4,275</span><span style="color:#666">MeatMasters Inc.</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Lemongrass &amp; Spices</span><span>1.25 kg</span><span style="font-weight:700">375</span><span style="color:#666">Green Valley</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Charcoal / Firewood</span><span>2.50 sack</span><span style="font-weight:700">875</span><span style="color:#999">- market</span></div>
+    </div>
+    <!-- Dish 2 -->
+    <div style="background:#fff;color:#000;border-radius:8px;padding:12px;border:1px solid #ddd">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-weight:800;font-size:12px;max-width:70%">Beef Caldereta</div><div style="font-weight:700;font-size:11px;color:var(--gold,#c49a3c)">6,375</div></div>
+     <div style="font-size:9px;color:#666;margin-bottom:12px">For 150 pax</div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>COST</span><span>SUPPLIER</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Beef Brisket Chunks</span><span>10.00 kg</span><span style="font-weight:700">4,500</span><span style="color:#666">MeatMasters Inc.</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Tomato Sauce &amp; Liver Spread</span><span>5.00 kg</span><span style="font-weight:700">1,125</span><span style="color:#666">General Wholesale</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Mixed Vegetables</span><span>5.00 kg</span><span style="font-weight:700">750</span><span style="color:#666">Green Valley</span></div>
+    </div>
+    <!-- Dish 3 -->
+    <div style="background:#fff;color:#000;border-radius:8px;padding:12px;border:1px solid #ddd">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-weight:800;font-size:12px;max-width:70%">Garlic Butter Chicken</div><div style="font-weight:700;font-size:11px;color:var(--gold,#c49a3c)">4,750</div></div>
+     <div style="font-size:9px;color:#666;margin-bottom:12px">For 150 pax</div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>COST</span><span>SUPPLIER</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Whole Chicken Parts</span><span>12.50 kg</span><span style="font-weight:700">3,125</span><span style="color:#666">Poultry Palace</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Unsalted Butter</span><span>2.50 kg</span><span style="font-weight:700">1,125</span><span style="color:#666">General Wholesale</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Garlic &amp; Herbs</span><span>1.25 kg</span><span style="font-weight:700">500</span><span style="color:#999">- market</span></div>
+    </div>
+    <!-- Dish 4 -->
+    <div style="background:#fff;color:#000;border-radius:8px;padding:12px;border:1px solid #ddd">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-weight:800;font-size:12px;max-width:70%">Lumpia Shanghai</div><div style="font-weight:700;font-size:11px;color:var(--gold,#c49a3c)">2,750</div></div>
+     <div style="font-size:9px;color:#666;margin-bottom:12px">For 150 pax</div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>COST</span><span>SUPPLIER</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Ground Pork</span><span>6.25 kg</span><span style="font-weight:700">1,875</span><span style="color:#666">MeatMasters Inc.</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Spring Roll Wrappers</span><span>250.00 pcs</span><span style="font-weight:700">375</span><span style="color:#999">- market</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Carrots/Onions/Eggs</span><span>2.50 set</span><span style="font-weight:700">500</span><span style="color:#666">Green Valley</span></div>
+    </div>
+    <!-- Dish 5 -->
+    <div style="background:#fff;color:#000;border-radius:8px;padding:12px;border:1px solid #ddd">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div style="font-weight:800;font-size:12px;max-width:70%">Classic Chicken Adobo</div><div style="font-weight:700;font-size:11px;color:var(--gold,#c49a3c)">3,375</div></div>
+     <div style="font-size:9px;color:#666;margin-bottom:12px">For 150 pax</div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>COST</span><span>SUPPLIER</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Chicken Whole</span><span>12.50 kg</span><span style="font-weight:700">3,000</span><span style="color:#666">Poultry Palace</span></div>
+     <div style="display:grid;grid-template-columns:3fr 1fr 1fr 2fr;font-size:9px;color:#333;margin-bottom:8px;align-items:center"><span>Soy Sauce &amp; Vinegar</span><span>2.50 set</span><span style="font-weight:700">375</span><span style="color:#999">- market</span></div>
+    </div>
+   </div>
+
+   <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));padding-bottom:8px">SUPPLIER PURCHASE ORDERS</div>
+
+   <!-- PO Grid -->
+   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
+    <!-- PO 1 -->
+    <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:12px;color:#333">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px;font-weight:700">DRAFT</span><span style="font-weight:800;color:#000">18,750</span></div>
+     <div style="font-weight:800;font-size:13px;color:#000;margin-bottom:12px">MeatMasters Inc.</div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #e0d0b0;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>DISH</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Whole Pork Belly</span><span>12.50 kg</span><span style="color:#666">Pork Belly Lechon</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Beef Brisket Chunks</span><span>10.00 kg</span><span style="color:#666">Beef Caldereta</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Ground Pork</span><span>6.25 kg</span><span style="color:#666">Lumpia Shanghai</span></div>
+     <div style="margin-top:16px;display:flex;gap:6px"><select style="flex:1;font-size:10px;padding:4px"><option>Draft</option><option>Sent</option></select><button style="background:#fff;border:1px solid #ccc;border-radius:4px;font-size:10px;padding:4px 8px;font-weight:600">" Generate &amp; Export PO</button></div>
+    </div>
+    <!-- PO 2 -->
+    <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:12px;color:#333">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px;font-weight:700">DRAFT</span><span style="font-weight:800;color:#000">3,125</span></div>
+     <div style="font-weight:800;font-size:13px;color:#000;margin-bottom:12px">Green Valley</div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #e0d0b0;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>DISH</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Lemongrass &amp; Spices</span><span>1.25 kg</span><span style="color:#666">Pork Belly Lechon</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Mixed Vegetables</span><span>5.00 kg</span><span style="color:#666">Beef Caldereta</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Carrots/Onions/Eggs</span><span>2.50 set</span><span style="color:#666">Lumpia Shanghai</span></div>
+     <div style="margin-top:16px;display:flex;gap:6px"><select style="flex:1;font-size:10px;padding:4px"><option>Draft</option><option>Sent</option></select><button style="background:#fff;border:1px solid #ccc;border-radius:4px;font-size:10px;padding:4px 8px;font-weight:600">" Generate &amp; Export PO</button></div>
+    </div>
+    <!-- PO 3 -->
+    <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:12px;color:#333">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:9px;background:#eee;color:#666;padding:2px 4px;border-radius:4px;font-weight:700">DRAFT</span><span style="font-weight:800;color:#000">6,125</span></div>
+     <div style="font-weight:800;font-size:13px;color:#000;margin-bottom:12px">Poultry Palace</div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:8px;font-weight:700;color:#999;border-bottom:1px solid #e0d0b0;padding-bottom:4px;margin-bottom:6px"><span>INGREDIENT</span><span>QTY</span><span>DISH</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Whole Chicken Parts</span><span>12.50 kg</span><span style="color:#666">Garlic Butter Chicken</span></div>
+     <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:9px;margin-bottom:6px;align-items:center"><span>Chicken Whole</span><span>12.50 kg</span><span style="color:#666">Classic Chicken Adobo</span></div>
+     <div style="margin-top:16px;display:flex;gap:6px"><select style="flex:1;font-size:10px;padding:4px"><option>Draft</option><option>Sent</option></select><button style="background:#fff;border:1px solid #ccc;border-radius:4px;font-size:10px;padding:4px 8px;font-weight:600">" Generate &amp; Export PO</button></div>
+    </div>
+   </div>
+
+  </div>
+ </div>
+</div>
+<!-- ================================================================ -->
+<!-- SCREEN 5-REVISED B " RESERVATION DETAILS: Procurement (Aesthetic & Decor) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 5-RB " Reservation Details: Procurement (Aesthetic &amp; Decor UI)</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+   <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+    <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">#RES-98214 " Grand Victorian Wedding " May 5, 2026</div>
+   </div>
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Main Dashboard</button><button class="tab-btn">Logistics Timeline</button><button class="tab-btn active">Procurement Hub</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn">Design</button><button class="tab-btn">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Personnel</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+
+   <div style="padding:16px;background:#1a1007;border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+     <div style="font-size:16px;font-weight:700;color:var(--cream,#f5e6c8)">Aesthetic &amp; Decor</div>
+     <div style="font-size:12px;color:var(--text-dim,#7a6a5a)">#RES-98214 " Grand Victorian Wedding (2026-05-05)  150 pax</div>
+    </div>
+    <div style="display:flex;gap:8px"><button class="btn-outline" style="font-size:12px">Export CSV</button><button class="btn-outline" style="font-size:12px;border-color:rgba(255,255,255,0.2)">- Close</button></div>
+   </div>
+
+   <!-- Stats row -->
+   <div style="display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="flex:2;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">28,000</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Est. Total Cost</div>
+    </div>
+    <div style="flex:2;background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:#2ecc71">9,000</div>
+     <div style="font-size:11px;color:#2ecc71;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">PO Finalized Cost</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">4</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Suppliers</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:16px">
+     <div style="font-size:24px;font-weight:800;color:var(--cream,#f5e6c8)">0</div>
+     <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Shopping Items</div>
+    </div>
+   </div>
+
+   <div style="display:flex;gap:24px">
+    <!-- VENDOR PURCHASE ORDERS (Left Col) -->
+    <div style="flex:3">
+     <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));padding-bottom:8px">VENDOR PURCHASE ORDERS</div>
+     
+     <div style="display:flex;flex-direction:column;gap:16px">
+      <!-- Vendor 1 -->
+      <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:16px;color:#333">
+       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div>
+         <div style="font-weight:800;font-size:15px;color:#000;margin-bottom:4px">Balloon Arts Studio</div>
+         <span style="font-size:9px;background:rgba(46,204,113,0.2);color:#0b5c2a;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase">COMPLETED</span>
+        </div>
+        <div style="font-weight:800;font-size:16px;color:#000">9,000</div>
+       </div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:9px;font-weight:700;color:#999;border-bottom:1px solid #e0d0b0;padding-bottom:6px;margin-bottom:8px"><span>COMPONENT</span><span>ITEM</span><span style="text-align:right">COST</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Latex Balloons (Bulk 500pcs)</span><span style="color:#666">Balloon Setup</span><span style="text-align:right">1,500</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Balloon Ribbons &amp; Sticks</span><span style="color:#666">Balloon Setup</span><span style="text-align:right">800</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Balloon Weights</span><span style="color:#666">Balloon Setup</span><span style="text-align:right">500</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Balloon Inflator Rental</span><span style="color:#666">Balloon Setup</span><span style="text-align:right">2,200</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Balloon Release Net (Giant)</span><span style="color:#666">Balloon Drops Ceiling</span><span style="text-align:right">2,500</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Balloon Mix (500pcs)</span><span style="color:#666">Balloon Drops Ceiling</span><span style="text-align:right">1,500</span></div>
+       <div style="margin-top:16px;background:rgba(46,204,113,0.15);color:#0b5c2a;padding:8px;border-radius:4px;text-align:center;font-size:10px;font-weight:700">" PO Completed &amp; Cost Finalized at 9,000</div>
+      </div>
+
+      <!-- Vendor 2 -->
+      <div style="background:#f9f0e0;border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:16px;color:#333;opacity:0.9">
+       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div>
+         <div style="font-weight:800;font-size:15px;color:#000;margin-bottom:4px">Blossom Florists</div>
+         <span style="font-size:9px;background:#eee;color:#666;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase">DRAFT</span>
+        </div>
+        <div style="font-weight:800;font-size:16px;color:#000">4,000</div>
+       </div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:9px;font-weight:700;color:#999;border-bottom:1px solid #e0d0b0;padding-bottom:6px;margin-bottom:8px"><span>COMPONENT</span><span>ITEM</span><span style="text-align:right">COST</span></div>
+       <div style="display:grid;grid-template-columns:3fr 2fr 1fr;font-size:10px;margin-bottom:10px;align-items:center"><span>Floral Accents (Premium)</span><span style="color:#666">Entrance Stylist Setup</span><span style="text-align:right">4,000</span></div>
+       <div style="margin-top:16px;display:flex;gap:6px"><select style="flex:1;font-size:10px;padding:6px;border-radius:4px;border:1px solid #ccc"><option>Draft</option><option>Sent</option></select><button style="background:#fff;border:1px solid #ccc;border-radius:4px;font-size:10px;padding:6px 12px;font-weight:600">" Generate &amp; Export PO</button></div>
+      </div>
+     </div>
+    </div>
+
+    <!-- GENERAL SHOPPING / MARKET (Right Col) -->
+    <div style="flex:1">
+     <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));padding-bottom:8px">GENERAL SHOPPING / MARKET</div>
+     <div style="background:rgba(255,255,255,0.02);border:1px dashed var(--border,rgba(255,255,255,0.2));border-radius:8px;padding:24px;text-align:center;color:var(--text-dim,#7a6a5a);font-size:12px">
+      No shopping items needed.
+     </div>
+    </div>
+   </div>
+
+  </div>
+ </div>
+</div>
+<!-- ================================================================ -->
+<!-- SCREEN X1 " RESERVATION DETAILS: Design -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X1 " Reservation Details: Design</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Main Dashboard</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn active">Design</button><button class="tab-btn">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+   <div class="panel-box">
+    <div class="panel-box-hdr"><div style="font-size:14px;font-weight:700">Design &amp; Aesthetics Profile</div><button class="btn-primary" style="font-size:11px">Edit Design</button></div>
+    <div class="panel-box-body">
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:8px">Theme Reference</div>
+       <div style="height:150px;background:var(--bg3,#140e05);border-radius:8px;border:1px dashed var(--border,rgba(255,255,255,0.2));display:flex;align-items:center;justify-content:center;color:var(--text-dim,#7a6a5a);margin-bottom:16px">Moodboard / Reference Image Here</div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Color Palette</div>
+       <div style="display:flex;gap:8px;margin-bottom:16px">
+        <div style="width:30px;height:30px;background:#f9f0e0;border-radius:4px;border:1px solid #ccc"></div>
+        <div style="width:30px;height:30px;background:#c49a3c;border-radius:4px;border:1px solid #ccc"></div>
+        <div style="width:30px;height:30px;background:#3e2723;border-radius:4px;border:1px solid #ccc"></div>
+        <div style="width:30px;height:30px;background:#1a1007;border-radius:4px;border:1px solid #ccc"></div>
+       </div>
+      </div>
+      <div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Specific Requirements</div>
+       <ul style="color:var(--cream,#f5e6c8);font-size:13px;line-height:1.6;margin:0;padding-left:16px;margin-bottom:16px">
+        <li>Classic Victorian aesthetics with gold accents</li>
+        <li>Floral arrangements mainly white roses and subtle greenery</li>
+        <li>Ambient warm uplighting (no neon colors)</li>
+        <li>Custom monogram projected on dance floor</li>
+       </ul>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Design Approvals</div>
+       <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:6px;border:1px solid var(--border,rgba(255,255,255,0.05))"><span style="font-size:12px">Table Centerpieces Layout</span><span class="badge-conf">Approved</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:6px;border:1px solid var(--border,rgba(255,255,255,0.05))"><span style="font-size:12px">Stage/Altar Backdrop</span><span class="badge-pend">Pending Revision</span></div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN X2 " RESERVATION DETAILS: Venue Details -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X2 " Reservation Details: Venue Details</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Main Dashboard</button><button class="tab-btn">Design</button><button class="tab-btn active">Venue Details</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button>
+   </div></div></div>
+   <div class="panel-box">
+    <div class="panel-box-hdr"><div style="font-size:14px;font-weight:700">Venue Information &amp; Logistics</div><button class="btn-primary" style="font-size:11px">Update Venue</button></div>
+    <div class="panel-box-body">
+     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+      <div style="background:var(--bg3,#140e05);padding:16px;border-radius:8px;border:1px solid var(--border,rgba(255,255,255,0.08))">
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Venue Name</div>
+       <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8);margin-bottom:12px">The Grand Ballroom</div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Address</div>
+       <div style="font-size:13px;color:var(--cream,#f5e6c8)">Makati City, Metro Manila</div>
+      </div>
+      <div style="background:var(--bg3,#140e05);padding:16px;border-radius:8px;border:1px solid var(--border,rgba(255,255,255,0.08))">
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Venue Contact Person</div>
+       <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8);margin-bottom:12px">Mr. Antonio Reyes (Manager)</div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Contact Number</div>
+       <div style="font-size:13px;color:var(--cream,#f5e6c8)">+63 917 888 0000</div>
+      </div>
+      <div style="background:var(--bg3,#140e05);padding:16px;border-radius:8px;border:1px solid var(--border,rgba(255,255,255,0.08))">
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Ingress Time (Setup)</div>
+       <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8);margin-bottom:12px">May 5, 2026 @ 06:00 AM</div>
+       <div style="font-size:11px;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:4px">Egress Time (Pack-up)</div>
+       <div style="font-size:13px;color:var(--cream,#f5e6c8)">May 5, 2026 @ 11:30 PM</div>
+      </div>
+     </div>
+     <div style="font-size:12px;font-weight:700;margin-bottom:8px">Venue Restrictions &amp; Notes</div>
+     <div style="background:rgba(231,76,60,0.05);border-left:4px solid #e74c3c;padding:12px;border-radius:4px;font-size:12px;color:var(--cream,#f5e6c8);line-height:1.5">
+      - No open flames or pyrotechnics allowed indoors.<br/>
+      - Service elevator access must be coordinated 48 hours prior.<br/>
+      - Corkage fee applies for external alcoholic beverages not listed in contract.
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN X3 " RESERVATION DETAILS: Food Tasted -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X3 " Reservation Details: Food Tasted</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Venue Details</button><button class="tab-btn active">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button>
+   </div></div></div>
+   <div class="panel-box">
+    <div class="panel-box-hdr"><div style="font-size:14px;font-weight:700">Food Tasting &amp; Menu Adjustments</div><button class="btn-primary" style="font-size:11px">Log Tasting Session</button></div>
+    <div class="panel-box-body">
+     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg3,#140e05);border-radius:8px;border:1px solid var(--border,rgba(255,255,255,0.08));margin-bottom:16px">
+      <div><div style="font-size:13px;font-weight:700;color:var(--cream,#f5e6c8)">Initial Tasting Session</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Conducted: April 10, 2026</div></div>
+      <span class="badge-conf">Completed</span>
+     </div>
+     <table class="tbl">
+      <thead><tr><th>Dish Tested</th><th>Client Feedback</th><th>Adjustments Made</th><th>Approval</th></tr></thead>
+      <tbody>
+       <tr><td style="font-weight:600">Beef Caldereta</td><td>Slightly too spicy for general crowd.</td><td>Reduced chili content by 30%.</td><td><span class="badge-conf">Approved</span></td></tr>
+       <tr><td style="font-weight:600">Garlic Butter Chicken</td><td>Loved it, perfect flavor.</td><td>None.</td><td><span class="badge-conf">Approved</span></td></tr>
+       <tr><td style="font-weight:600">Seafood Paella</td><td>Rice was a bit dry.</td><td>Will increase broth ratio in final prep.</td><td><span class="badge-pend">Pending Retaste</span></td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN X4 " RESERVATION DETAILS: Staff Allocation & Personnel -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X4 " Reservation Details: Staff Allocation &amp; Personnel</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Food Tasted</button><button class="tab-btn active">Staff Allocation</button><button class="tab-btn active">Personnel</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+   
+   <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+    <div style="font-size:16px;font-weight:700">Assigned Event Personnel</div>
+    <button class="btn-primary" style="font-size:12px">+ Assign Staff</button>
+   </div>
+   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--gold,#c49a3c);border-radius:8px;padding:12px;text-align:center">
+     <div style="width:40px;height:40px;background:var(--gold,#c49a3c);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">''</div>
+     <div style="font-weight:700;font-size:13px;color:var(--cream,#f5e6c8)">Maria Coordinator</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Event Manager</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:12px;text-align:center">
+     <div style="width:40px;height:40px;background:rgba(255,255,255,0.1);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">'</div>
+     <div style="font-weight:700;font-size:13px;color:var(--cream,#f5e6c8)">Chef Roberto</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Head Chef</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:8px;padding:12px;text-align:center">
+     <div style="width:40px;height:40px;background:rgba(255,255,255,0.1);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">'"</div>
+     <div style="font-weight:700;font-size:13px;color:var(--cream,#f5e6c8)">Elias</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Waitstaff Lead</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.02);border:1px dashed var(--border,rgba(255,255,255,0.2));border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:center;color:var(--text-dim,#7a6a5a);font-size:12px;cursor:pointer">
+     + Add more staff (8 needed)
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN X5 " RESERVATION DETAILS: Final Summary & Rundown -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X5 " Reservation Details: Final Summary &amp; Rundown</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Personnel</button><button class="tab-btn active">Final Summary</button><button class="tab-btn active">Final Rundown</button>
+   </div></div></div>
+   
+   <div style="background:linear-gradient(135deg,rgba(196,154,60,0.1),rgba(196,154,60,0.02));border:1px solid var(--gold,#c49a3c);border-radius:12px;padding:24px;text-align:center;margin-bottom:20px">
+    <div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c);margin-bottom:8px">Ready for Execution</div>
+    <div style="font-size:13px;color:var(--cream,#f5e6c8);margin-bottom:16px">All core elements (Payment, Procurement, Staffing, Venue) have been confirmed. Generate the final event manifesto.</div>
+    <button class="btn-primary" style="padding:10px 24px;font-size:13px">" Generate &amp; Print Manifesto</button>
+   </div>
+
+   <div class="panel-box">
+    <div class="panel-box-hdr"><div style="font-size:14px;font-weight:700">Event Manifesto / Final Rundown Outline</div></div>
+    <div class="panel-box-body" style="padding:0">
+     <div style="padding:16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:12px"><span style="font-size:20px">1</span><div><div style="font-size:13px;font-weight:700">Pre-Event Preparation</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Equipment packing, kitchen prep, final dispatch.</div></div></div>
+     <div style="padding:16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:12px"><span style="font-size:20px">2</span><div><div style="font-size:13px;font-weight:700">Ingress &amp; Setup</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Arrival at venue, layout arrangement, decor installation.</div></div></div>
+     <div style="padding:16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:12px"><span style="font-size:20px">3</span><div><div style="font-size:13px;font-weight:700">Event Proper</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Guest arrival, food service, program coordination.</div></div></div>
+     <div style="padding:16px;display:flex;align-items:center;gap:12px"><span style="font-size:20px">4</span><div><div style="font-size:13px;font-weight:700">Egress &amp; Wrap-up</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a)">Pack up, venue turnover, return dispatch.</div></div></div>
+    </div>
+   </div>
+
+  </div>
+ </div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- SCREEN X4-REVISED " RESERVATION DETAILS: Staff Allocation -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X4-REVISED " Reservation Details: Staff Allocation</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+   <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+    <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">robert " Super duper party (2026-05-15)</div>
+   </div>
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Final Summary</button><button class="tab-btn active" style="border-bottom:2px solid var(--gold,#c49a3c)">Staff Allocation</button><button class="tab-btn">Personnel !</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+   
+   <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:12px;padding:24px;display:flex;justify-content:space-between;margin-bottom:24px">
+    <div><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">STAFF DEPLOYMENT WINDOW</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">5:00 AM - 5:00 PM</div></div>
+    <div><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">TOTAL WORK HOURS</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">12.0 Hours</div></div>
+    <div><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">ESTIMATED STAFF COST (150/HR)</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">10,800</div></div>
+   </div>
+
+   <div style="display:flex;gap:24px">
+    <div style="width:250px">
+     <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:12px">AVAILABLE STAFF POOL</div>
+     <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:#e8dfcc;border:1px solid var(--gold,#c49a3c);border-radius:6px;padding:12px;color:#000"><div style="font-weight:700;font-size:13px">Bolesa</div><div style="font-size:10px;color:#666">" Assigned to activities</div></div>
+      <div style="background:#e8dfcc;border:1px solid var(--gold,#c49a3c);border-radius:6px;padding:12px;color:#000"><div style="font-weight:700;font-size:13px">staff</div><div style="font-size:10px;color:#666">" Assigned to activities</div></div>
+      <div style="background:#e8dfcc;border:1px solid var(--gold,#c49a3c);border-radius:6px;padding:12px;color:#000"><div style="font-weight:700;font-size:13px">comedia</div><div style="font-size:10px;color:#666">" Assigned to activities</div></div>
+      <div style="background:#e8dfcc;border:1px solid var(--gold,#c49a3c);border-radius:6px;padding:12px;color:#000"><div style="font-weight:700;font-size:13px">martin</div><div style="font-size:10px;color:#666">" Assigned to activities</div></div>
+     </div>
+    </div>
+    <div style="flex:1">
+     <div style="font-size:11px;font-weight:700;color:var(--text-dim,#7a6a5a);text-transform:uppercase;margin-bottom:12px">CURRENT ALLOCATION &amp; ACTIVITY TASKS</div>
+     
+     <div style="background:#f4ebd8;border:1px solid #c49a3c;border-radius:8px;margin-bottom:16px;color:#000">
+      <div style="padding:10px 16px;border-bottom:1px solid #c49a3c;font-weight:700;font-size:12px">Departure <span style="font-weight:400;color:#666">(5:00 AM - 6:00 AM)</span></div>
+      <div style="padding:16px">
+       <div style="font-size:12px;font-weight:700;margin-bottom:8px">Count equipment</div>
+       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        <span style="background:#a67c00;color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700">" Bolesa</span>
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ staff</span>
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ comedia</span>
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ martin</span>
+       </div>
+       <div style="font-size:12px;font-weight:700;margin-bottom:8px">Load transport</div>
+       <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ Bolesa</span>
+        <span style="background:#a67c00;color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700">" staff</span>
+        <span style="background:#a67c00;color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700">" comedia</span>
+        <span style="background:#a67c00;color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700">" martin</span>
+       </div>
+      </div>
+     </div>
+     
+     <div style="background:#f4ebd8;border:1px solid #c49a3c;border-radius:8px;color:#000">
+      <div style="padding:10px 16px;border-bottom:1px solid #c49a3c;font-weight:700;font-size:12px">Deployment <span style="font-weight:400;color:#666">(6:00 AM - 8:00 AM)</span></div>
+      <div style="padding:16px">
+       <div style="font-size:12px;font-weight:700;margin-bottom:8px">Setup venue</div>
+       <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="background:#a67c00;color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700">" Bolesa</span>
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ staff</span>
+        <span style="border:1px solid #999;color:#333;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#fff">+ comedia</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SCREEN X4-REVISED " RESERVATION DETAILS: Personnel -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN X4-REVISED " Reservation Details: Personnel</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1></div>
+   <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+    <button class="tab-btn">Staff Allocation</button><button class="tab-btn active" style="border-bottom:2px solid var(--gold,#c49a3c)">Personnel !</button><button class="tab-btn">Final Rundown</button>
+   </div></div></div>
+   
+   <div style="margin-bottom:16px">
+    <h2 style="font-family:'Arial';color:var(--gold,#c49a3c);margin:0;font-size:20px">Personnel &amp; Talent Management</h2>
+    <p style="font-size:12px;color:var(--text-dim,#7a6a5a);margin-top:4px">Manage hiring and follow-ups for entertainment and specialized event roles</p>
+   </div>
+
+   <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:12px;padding:24px;display:flex;justify-content:space-between;margin-bottom:24px">
+    <div style="flex:1"><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">TOTAL PERSONNEL COST</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">15,000</div></div>
+    <div style="flex:1;text-align:center"><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">DEPLOYMENT WINDOW</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">5:00 AM - 5:00 PM</div></div>
+    <div style="flex:1;text-align:right"><div style="font-size:10px;font-weight:700;color:var(--text-dim,#7a6a5a);letter-spacing:1px;margin-bottom:6px">TOTAL WORK HOURS</div><div style="font-size:20px;font-weight:800;color:var(--gold,#c49a3c)">12.0 Hours</div></div>
+   </div>
+
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+    <!-- Event Coordinator Card -->
+    <div style="background:#fff;border:1px solid #c49a3c;border-radius:12px;padding:20px;color:#000;position:relative">
+     <div style="position:absolute;top:16px;right:16px;color:#e74c3c;font-weight:900;font-size:16px">!</div>
+     <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:4px">ENTERTAINMENT</div>
+     <div style="font-size:16px;font-weight:800;margin-bottom:16px">Event Coordinator</div>
+     <div style="font-size:10px;font-weight:700;color:#666;margin-bottom:4px">HIRING SELECTION</div>
+     <select style="width:100%;padding:10px;border-radius:6px;border:1px solid #c49a3c;background:#f9f0e0;margin-bottom:16px;font-weight:600"><option>Maria Clara (210 hires)</option></select>
+     <div style="font-size:11px;color:#333;margin-bottom:16px;display:flex;flex-direction:column;gap:4px">
+      <div>" 0917-888-9001</div>
+      <div> maria.clara@coord.ph</div>
+      <div style="font-weight:700">Rate: 15,000</div>
+     </div>
+     <button style="width:100%;padding:12px;background:#a67c00;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:12px">" Contact &amp; Follow Up</button>
+    </div>
+
+    <!-- Party Host Card -->
+    <div style="background:#fff;border:1px solid #ccc;border-radius:12px;padding:20px;color:#000">
+     <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:4px">ENTERTAINMENT</div>
+     <div style="font-size:16px;font-weight:800;margin-bottom:16px">Party Host / Emcee</div>
+     <div style="font-size:10px;font-weight:700;color:#666;margin-bottom:4px">HIRING SELECTION</div>
+     <select style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;background:#f9f0e0;margin-bottom:16px;font-weight:600;color:#666"><option>Select person to hire...</option></select>
+     <div style="font-size:9px;color:#999;text-align:center;margin-bottom:16px">Assign staff to view contact info</div>
+     <button style="width:100%;padding:12px;background:#eee;color:#999;border:none;border-radius:6px;font-weight:700;font-size:12px">Pending Selection</button>
+    </div>
+
+    <!-- Kids Magician Card -->
+    <div style="background:#fff;border:1px solid #ccc;border-radius:12px;padding:20px;color:#000">
+     <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:4px">ENTERTAINMENT</div>
+     <div style="font-size:16px;font-weight:800;margin-bottom:16px">Kids Magician</div>
+     <div style="font-size:10px;font-weight:700;color:#666;margin-bottom:4px">HIRING SELECTION</div>
+     <select style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;background:#f9f0e0;margin-bottom:16px;font-weight:600;color:#666"><option>Select person to hire...</option></select>
+     <div style="font-size:9px;color:#999;text-align:center;margin-bottom:16px">Assign staff to view contact info</div>
+     <button style="width:100%;padding:12px;background:#eee;color:#999;border:none;border-radius:6px;font-weight:700;font-size:12px">Pending Selection</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<!-- ================================================================ -->
+<!-- SCREEN 6-REVISED " MEETINGS HUB -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 6-REVISED " Meetings Hub</div>
+<div class="figma-screen">
+ <div class="adm-sidebar">
+  <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+  <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si active">"... Meetings Hub</div><div class="si"> Execution Day</div>
+ </div>
+ <div class="adm-main">
+  <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s Admin</span></div>
+  <div class="adm-content">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <div><h1 style="margin:0;font-size:22px">Meetings Hub</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Schedule and manage customer consultations &amp; contract signings</p></div>
+    <button class="btn-outline" style="border-color:var(--gold,#c49a3c);color:var(--gold,#c49a3c)"> Force Meeting Mode (Demo)</button>
+   </div>
+
+   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;height:calc(100vh - 120px)">
+    <!-- Left: Pending Meetings -->
+    <div style="background:#3e2723;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border:1px solid #c49a3c">
+     <div style="padding:16px;background:#2d1b15;border-bottom:1px solid #4e342e">
+      <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Pending Meetings</div>
+      <div style="font-size:11px;color:#aaa">Filter by missing mandatory topics</div>
+     </div>
+     <div style="padding:12px;display:flex;flex-wrap:wrap;gap:6px;background:#f9f0e0">
+      <button style="border-radius:20px;border:1px solid #c49a3c;padding:4px 10px;font-size:10px;background:#f9f0e0;color:#000">All</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Contract finalization</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Food tasting</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Additional reservation discussion</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Venue Assessment</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Design &amp; Deco</button>
+      <button style="border-radius:20px;border:1px solid #ccc;padding:4px 10px;font-size:10px;background:#fff;color:#666">Final rundown</button>
+     </div>
+     <div style="flex:1;background:#fff;overflow-y:auto;padding:12px">
+      <!-- Pending Meeting Card -->
+      <div style="border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+       <div>
+        <div style="font-weight:700;font-size:13px;color:#000">robert</div>
+        <div style="font-size:10px;color:#666;text-transform:uppercase;margin:4px 0">SUPER DUPER PARTY " 2026-05-15</div>
+        <div style="font-size:9px;color:#999">Missing: 6 topics</div>
+       </div>
+       <button style="background:#c49a3c;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;font-size:10px">Schedule</button>
+      </div>
+      <!-- Repeated cards... -->
+      <div style="border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+       <div>
+        <div style="font-weight:700;font-size:13px;color:#000">robert</div>
+        <div style="font-size:10px;color:#666;text-transform:uppercase;margin:4px 0">BIRTHDAY PARTY " AUG 8, 2026</div>
+        <div style="font-size:9px;color:#999">Missing: 6 topics</div>
+       </div>
+       <button style="background:#c49a3c;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;font-size:10px">Schedule</button>
+      </div>
+      <div style="border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+       <div>
+        <div style="font-weight:700;font-size:13px;color:#000">robert</div>
+        <div style="font-size:10px;color:#666;text-transform:uppercase;margin:4px 0">CORPORATE EVENT " AUG 8, 8888</div>
+        <div style="font-size:9px;color:#999">Missing: 6 topics</div>
+       </div>
+       <button style="background:#c49a3c;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;font-size:10px">Schedule</button>
+      </div>
+     </div>
+    </div>
+
+    <!-- Middle: Meetings This Week -->
+    <div style="background:#3e2723;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--border,rgba(255,255,255,0.08))">
+     <div style="padding:16px;background:#2d1b15;border-bottom:1px solid #4e342e">
+      <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Meetings This Week</div>
+      <div style="font-size:11px;color:#aaa">Scheduled meetings for the current week</div>
+     </div>
+     <div style="flex:1;background:#fff;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">
+      No meetings scheduled for this week.
+     </div>
+    </div>
+
+    <!-- Right: Calendar -->
+    <div style="background:#3e2723;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--border,rgba(255,255,255,0.08))">
+     <div style="padding:16px;background:#2d1b15;border-bottom:1px solid #4e342e">
+      <div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Meeting Schedule</div>
+      <div style="font-size:11px;color:#aaa">Scheduled consultations and walkthroughs</div>
+     </div>
+     <div style="flex:1;background:#fff;padding:16px;color:#333">
+      <!-- Header Calendar -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+       <div style="display:flex;gap:4px">
+        <button style="border:1px solid #ccc;background:#fff;padding:4px 8px;border-radius:4px">&lt;</button>
+        <button style="border:1px solid #ccc;background:#fff;padding:4px 8px;border-radius:4px">&gt;</button>
+        <button style="border:1px solid #ccc;background:#fff;padding:4px 12px;border-radius:4px">Today</button>
+       </div>
+       <div style="font-weight:800;font-size:16px">May 2026</div>
+       <div style="display:flex">
+        <button style="background:#c49a3c;color:#fff;border:none;padding:4px 12px;border-radius:4px 0 0 4px">Month</button>
+        <button style="background:#fff;color:#666;border:1px solid #ccc;border-left:none;padding:4px 12px;border-radius:0 4px 4px 0">Week</button>
+       </div>
+      </div>
+      <!-- Grid Calendar (Mockup) -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;font-weight:700;color:#666;margin-bottom:8px">
+       <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:80px;gap:1px;background:#eee;border:1px solid #eee">
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#999;margin-bottom:4px">26</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#999;margin-bottom:4px">27</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px">8a Contract final...</div>
+       </div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#999;margin-bottom:4px">28</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#999;margin-bottom:4px">29</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px">8a Contract final...</div>
+       </div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#999;margin-bottom:4px">30</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;margin-bottom:2px">8a Design and de...</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;margin-bottom:2px">8a Food tasting...</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px">8a Venue Assess...</div>
+       </div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">1</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">2</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;margin-bottom:2px">8a Additional res...</div>
+        <div style="background:#c49a3c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;margin-bottom:2px">8a Final program...</div>
+       </div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">3</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">4</div></div>
+       <div style="background:#f9f0e0;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">5</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">6</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">7</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">8</div></div>
+       <div style="background:#fff;padding:4px"><div style="text-align:right;font-size:10px;color:#333;margin-bottom:4px">9</div></div>
+      </div>
+     </div>
+    </div>
+    </div> <!-- Outer Grid -->
+   </div> <!-- adm-content -->
+  </div> <!-- adm-main -->
+ </div> <!-- figma-screen -->
+
+<!-- ================================================================ -->
+<!-- SCREEN 4-R MODIFIED " Logistics Timeline (Revised with Scheduling & Payments) -->
+<!-- ================================================================ -->
+<div class="figma-label">SCREEN 4-R MODIFIED " Logistics Timeline (Revised with Scheduling & Payments)</div>
+<div class="figma-screen">
+  <div class="adm-sidebar">
+    <div style="padding:12px 16px 16px;border-bottom:1px solid var(--border,rgba(255,255,255,0.08));display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;background:var(--gold,#c49a3c);color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px">H</div><div><div style="font-size:14px;font-weight:700;color:var(--cream,#f5e6c8)">Halden''s</div></div></div>
+    <div class="sg-lbl">Reservations</div><div class="si"> Dashboard</div><div class="si">" All Reservations</div><div class="si active"> Reservation Details Handling</div><div class="si">" Activity Logs</div><div class="si">"... Meetings Hub</div><div class="si"> Execution Day</div>
+  </div>
+  <div class="adm-main">
+    <div class="adm-topnav"><span style="font-weight:700;color:var(--cream,#f5e6c8)">Halden''s <span style="font-size:10px;background:var(--gold,#c49a3c);color:#000;border-radius:4px;padding:1px 6px">Admin</span></span><div style="display:flex;gap:12px"><button class="btn-logout">Sign Out</button></div></div>
+    <div class="adm-content">
+      <div style="margin-bottom:12px"><h1 style="margin:0;font-size:22px">Reservation Details Handling</h1><p style="margin:2px 0 0;color:var(--text-dim,#7a6a5a);font-size:12px">Comprehensive oversight of approved bookings and operational execution</p></div>
+      <div style="margin-bottom:14px;padding:12px 18px;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.2);border-radius:12px;display:flex;align-items:center;gap:14px">
+        <span style="font-size:18px">"...</span><label style="font-size:11px;font-weight:700;color:var(--gold,#c49a3c);text-transform:uppercase">Active Reservation</label>
+        <div style="flex:1;height:42px;display:flex;align-items:center;padding:0 14px;font-weight:700;background:var(--bg3,#140e05);border:1px solid var(--gold,#c49a3c);border-radius:10px;font-size:13px;color:var(--cream,#f5e6c8)">robert — Please check and fix #RES-SR-92</div>
+      </div>
+      <div class="panel-box" style="margin-bottom:14px"><div class="panel-box-body" style="padding:8px"><div class="tab-bar" style="flex-wrap:wrap;gap:5px">
+        <button class="tab-btn">Main Dashboard</button><button class="tab-btn active">Logistics Timeline</button><button class="tab-btn">Procurement Hub</button><button class="tab-btn">Guest &amp; Seating</button><button class="tab-btn">Design</button><button class="tab-btn">Food Tasted</button><button class="tab-btn">Final Summary</button><button class="tab-btn">Staff Allocation</button><button class="tab-btn">Personnel</button><button class="tab-btn">Final Rundown</button>
+      </div></div></div>
+
+      <div style="padding:16px;background:#2a1b0a;border:1px solid var(--gold,#c49a3c);border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--cream,#f5e6c8)">User Reservation Timeline</div>
+          <div style="font-size:12px;color:var(--text-dim,#7a6a5a)">Calendar coverage, per-day activities, and payment milestones</div>
+        </div>
+        <button class="btn-outline" style="background:#2ecc71;color:#fff;border:none;font-weight:700;padding:10px 20px;border-radius:8px;font-size:12px;">SAVE ALL</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(196,154,60,0.3);border-radius:8px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">Countdown</div>
+          <div style="font-size:24px;font-weight:800;color:var(--gold,#c49a3c);margin-top:6px">5 Days Left</div>
+        </div>
+        <div style="background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.3);border-radius:8px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">TODAY'S LOAD</div>
+          <div style="font-size:24px;font-weight:800;color:var(--gold,#c49a3c);margin-top:6px">2 Pending</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text-dim,#7a6a5a);font-weight:700;text-transform:uppercase;letter-spacing:1px">DELAYED ACTIVITIES</div>
+          <div style="font-size:24px;font-weight:800;color:#e74c3c;margin-top:6px">9</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;overflow-x:auto;margin-bottom:20px;padding-bottom:10px">
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">RESERVATION...</div><div style="font-size:10px;color:var(--text-dim);">05/10/2026</div></div>
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">RESOURCE...</div><div style="font-size:10px;color:var(--text-dim);">05/11/2026</div></div>
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">PAYMENT...</div><div style="font-size:10px;color:var(--text-dim);">05/12/2026</div></div>
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">PROCUREMENT...</div><div style="font-size:10px;color:var(--text-dim);">05/13/2026</div></div>
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">FINAL...</div><div style="font-size:10px;color:var(--text-dim);">05/14/2026</div></div>
+        <div style="min-width:140px;background:#140e05;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;">EVENT...</div><div style="font-size:10px;color:var(--text-dim);">05/15/2026</div></div>
+      </div>
+
+      <div class="panel-box" style="margin-bottom:24px">
+        <div class="panel-box-hdr" style="padding:10px 16px;display:flex;justify-content:space-between">
+          <div style="display:flex;gap:4px"><button class="btn-outline" style="padding:4px 8px;font-size:14px">&lt;</button><button class="btn-outline" style="padding:4px 8px;font-size:14px">&gt;</button><button class="btn-outline" style="padding:4px 12px;font-size:12px">Today</button></div>
+          <div style="font-size:16px;font-weight:700">May 2026</div>
+          <div style="display:flex"><button class="btn-outline" style="background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px 0 0 4px;font-size:12px">Month</button><button class="btn-outline" style="border-radius:0 4px 4px 0;font-size:12px">List</button></div>
+        </div>
+        <div class="panel-box-body" style="padding:0">
+          <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+            <thead><tr style="border-bottom:1px solid var(--border,rgba(255,255,255,0.08))"><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Sun</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Mon</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Tue</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Wed</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Thu</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Fri</th><th style="padding:8px;font-size:11px;text-align:center;color:var(--text-dim,#7a6a5a)">Sat</th></tr></thead>
+            <tbody>
+              <tr style="height:100px"><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;">Reservation Detailing & Planning</div><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;">Equipment Inventory Checking</div></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"><div style="background:#3498db;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;">Personnel assessment</div></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td></tr>
+              <tr style="height:100px"><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;">Pre-Preparation (Pre-Prep)</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;margin-bottom:2px;border-radius:2px;">Food pre-preparation</div><div style="background:#1abc9c;color:#fff;font-size:8px;padding:2px 4px;border-radius:2px;">Equipment packing</div></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td><td style="border:1px solid var(--border);vertical-align:top;padding:4px"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:12px;padding:20px;margin-bottom:24px;">
+        <div style="font-size:13px;font-weight:700;color:var(--gold,#c49a3c);margin-bottom:12px">Reschedule Reservation</div>
+        <div style="display:flex;gap:15px;align-items:flex-end;">
+          <div style="flex:1;"><label style="font-size:10px;color:var(--text-dim,#7a6a5a);display:block;margin-bottom:5px;">START DATE</label><input type="text" value="05/15/2026" style="width:100%;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:6px;color:#fff;font-size:12px;"></div>
+          <div style="flex:1;"><label style="font-size:10px;color:var(--text-dim,#7a6a5a);display:block;margin-bottom:5px;">END DATE</label><input type="text" value="05/15/2026" style="width:100%;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:6px;color:#fff;font-size:12px;"></div>
+          <div style="flex:1;"><label style="font-size:10px;color:var(--text-dim,#7a6a5a);display:block;margin-bottom:5px;">TIME RANGE</label><input type="text" value="08:00 AM - 05:00 PM" style="width:100%;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:6px;color:#fff;font-size:12px;"></div>
+          <div style="flex:2;"><label style="font-size:10px;color:var(--text-dim,#7a6a5a);display:block;margin-bottom:5px;">REASON FOR DELAY / CHANGE</label><input type="text" value="reason" style="width:100%;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:6px;color:#fff;font-size:12px;"></div>
+          <button style="padding:10px 20px;background:#e74c3c;border:none;border-radius:6px;color:#fff;font-weight:800;font-size:12px;">CONFIRM RESCHED</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px;">
+        <div style="background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:16px;padding:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;"><div><div style="font-size:14px;font-weight:700;color:var(--gold,#c49a3c);">Assign Activities, Per Day</div><div style="font-size:11px;color:var(--text-dim,#7a6a5a);">Checkbook monitoring for accountability and progress</div></div></div>
+          <div style="display:flex;gap:10px;margin-bottom:20px;"><select style="flex:1;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border);border-radius:6px;color:#fff;font-size:12px;"><option>very_old_man</option></select><select style="flex:1;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border);border-radius:6px;color:#fff;font-size:12px;"><option>Pending</option></select></div>
+          <div style="display:flex;gap:10px;margin-bottom:24px;"><input type="text" placeholder="Add Activity (Ex: Presentation of menu)" style="flex:1;padding:10px;background:var(--bg3,#140e05);border:1px solid var(--border);border-radius:6px;color:#fff;font-size:12px;"><button style="padding:10px 16px;background:var(--gold,#c49a3c);color:#000;border:none;border-radius:6px;font-weight:800;font-size:12px;">add activity</button></div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+             <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">equipment inventory checking</div><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-top:2px;">2024-05-10</div></div><div style="display:flex;gap:5px;"><button style="padding:4px 8px;font-size:10px;background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px;font-weight:700;">Pending</button></div></div>
+             <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">food tasting</div><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-top:2px;">2024-05-10</div></div><div style="display:flex;gap:5px;"><button style="padding:4px 8px;font-size:10px;background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px;font-weight:700;">Pending</button></div></div>
+             <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">seating layout planning</div><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-top:2px;">2024-05-10</div></div><div style="display:flex;gap:5px;"><button style="padding:4px 8px;font-size:10px;background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px;font-weight:700;">Pending</button></div></div>
+             <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">rental identification</div><div style="font-size:10px;color:var(--text-dim,#7a6a5a);margin-top:2px;">2024-05-10</div></div><div style="display:flex;gap:5px;"><button style="padding:4px 8px;font-size:10px;background:var(--gold,#c49a3c);color:#000;border:none;border-radius:4px;font-weight:700;">Pending</button></div></div>
+          </div>
+        </div>
+        <div style="background:var(--bg2,#1a1007);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:16px;padding:24px;">
+           <div style="font-size:14px;font-weight:700;color:var(--gold,#c49a3c);margin-bottom:20px;">Payments & Pending Payments</div>
+           <div style="display:flex;flex-direction:column;gap:15px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="font-size:12px;font-weight:700;color:#fff;">sending reservation Agreement sent</div><button style="padding:6px 12px;background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:4px;color:var(--gold,#c49a3c);font-size:10px;font-weight:700;">NOTIFY</button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="font-size:12px;font-weight:700;color:#fff;">initial payment sent</div><button style="padding:6px 12px;background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:4px;color:var(--gold,#c49a3c);font-size:10px;font-weight:700;">NOTIFY</button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="font-size:12px;font-weight:700;color:#fff;">final payment sent</div><button style="padding:6px 12px;background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:4px;color:var(--gold,#c49a3c);font-size:10px;font-weight:700;">NOTIFY</button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="font-size:12px;font-weight:700;color:#fff;">sending contingency fuel cost sent</div><button style="padding:6px 12px;background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:4px;color:var(--gold,#c49a3c);font-size:10px;font-weight:700;">NOTIFY</button></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);"><div style="font-size:12px;font-weight:700;color:#fff;">sending contingency fuel cost sent</div><button style="padding:6px 12px;background:rgba(196,154,60,0.1);border:1px solid var(--gold,#c49a3c);border-radius:4px;color:var(--gold,#c49a3c);font-size:10px;font-weight:700;">NOTIFY</button></div>
+           </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
